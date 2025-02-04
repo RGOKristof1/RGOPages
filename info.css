@@ -1,0 +1,114 @@
+main {
+    margin-left: 25%;
+    margin-right: 25%;
+    background-color: moccasin;
+    border: 20px;
+    border-color: goldenrod;
+    border-style: ridge;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+html {
+    background-color: moccasin;
+}
+
+h1 {
+
+    text-align: center;
+
+}
+
+h3 {
+    padding-left: 10px;
+}
+
+body {
+    background-color: black;
+
+}
+
+/*buton*/
+button {
+    padding: 15px 25px;
+    border: unset;
+    border-radius: 15px;
+    color: #212121;
+    z-index: 1;
+    background: #e8e8e8;
+    position: relative;
+    font-weight: 1000;
+    font-size: 17px;
+    -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+    box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+    transition: all 250ms;
+    overflow: hidden;
+}
+
+button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    border-radius: 15px;
+    background-color: #212121;
+    z-index: -1;
+    -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+    box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+    transition: all 250ms
+}
+
+button:hover {
+    color: #e8e8e8;
+}
+
+button:hover::before {
+    width: 100%;
+}
+
+/*button vege*/
+button {
+    margin-left: 36%;
+}
+
+p {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+
+
+.img-fluid {
+    display: block;
+    margin: auto;
+    width: 250px;
+}
+
+.baba {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.epulet {
+    height: 150px;
+}
+
+.regi {
+    text-align: center;
+}
+
+.logo {
+    padding-top: 125px;
+}
+img {
+    opacity: 0.5;
+  }
+  
+  img:hover {
+    opacity: 1.0;
+  }
+  h5{
+    padding-left: 10px;
+    text-align: center;
+  }

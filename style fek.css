@@ -1,0 +1,343 @@
+header {
+  background-color: #212121;
+  color: ghostwhite;
+  height: 200px;
+  background-size: cover;
+  font-size: xx-large;
+  text-align: center;
+}
+
+head {
+  background-color: #212121;
+}
+
+section {
+  background-color: #212121;
+  color: ghostwhite;
+}
+
+html {
+  background-color: #212121;
+}
+
+#button {
+
+  padding: 15px 25px;
+  border: unset;
+  border-radius: 15px;
+  color: ghostwhite;
+  z-index: 1;
+  background: #212121;
+  position: relative;
+  font-weight: 1000;
+  font-size: 17px;
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  transition: all 250ms;
+  overflow: hidden;
+}
+
+#button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  border-radius: 15px;
+  background-color: #212121;
+  z-index: -1;
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  transition: all 250ms
+}
+
+#button:hover {
+  color: ghostwhite;
+}
+
+#button:hover::before {
+  width: 100%;
+}
+
+/*section cuccok*/
+#infok {
+  border: thick;
+  border-color: rgb(92, 129, 19);
+  border-width: 10px;
+  border-style: ridge;
+  float: left;
+  width: 350px;
+  text-align: center;
+}
+
+#infok>h1,
+h2 {
+  text-align: center;
+}
+
+#lentgomb {
+  margin-left: 0px;
+}
+
+/*section cuccok*/
+/*lenti gomb*/
+/* From Uiverse.io by Wendell47 */
+#lentgomb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 30px;
+  border: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10rem;
+  transition: all 0.02s;
+  font-weight: bold;
+  cursor: pointer;
+  color: rgb(37, 37, 37);
+  z-index: 0;
+  box-shadow: 0 0px 7px -5px rgba(0, 0, 0, 0.5);
+}
+
+#lentgomb:hover {
+  background: rgb(193, 228, 248);
+  color: rgb(33, 0, 85);
+}
+
+#lentgomb:active {
+  transform: scale(0.97);
+}
+
+.hoverEffect {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.hoverEffect div {
+  background: rgb(222, 0, 75);
+  background: linear-gradient(90deg,
+      rgba(222, 0, 75, 1) 0%,
+      rgba(191, 70, 255, 1) 49%,
+      rgba(0, 212, 255, 1) 100%);
+  border-radius: 40rem;
+  width: 10rem;
+  height: 10rem;
+  transition: 0.4s;
+  filter: blur(20px);
+  animation: effect infinite 3s linear;
+  opacity: 0.5;
+}
+
+#lentgomb:hover .hoverEffect div {
+  width: 8rem;
+  height: 8rem;
+}
+
+@keyframes effect {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+/*lnti gomb vége*/
+/*kepzes*/
+
+#kepzes {
+  border: thick;
+  border-color: rgb(0, 24, 160);
+  border-width: 10px;
+  border-style: ridge;
+  overflow: hidden;
+}
+
+#kepzes>h1 {
+  font-size: xx-large;
+  text-align: center;
+
+}
+
+#kepzes>p {
+  font-size: large;
+}
+
+#kepzes>a>#button {
+  padding: 20px 20px;
+  margin-left: 40%;
+}
+
+/*kepzes vege*/
+#elet {
+  border: thick;
+  border-color: rgb(124, 20, 102);
+  border-width: 10px;
+  border-style: ridge;
+  overflow: hidden;
+}
+
+#elet>h1 {
+  font-size: xx-large;
+  text-align: center;
+}
+
+#elet>p {
+  font-size: large;
+}
+
+#elet>a>#button {
+  padding: 20px 20px;
+  margin-left: 40%;
+}
+
+#beisk {
+  border: thick;
+  border-color: rgb(244, 55, 12);
+  border-width: 10px;
+  border-style: ridge;
+  overflow: hidden;
+}
+
+#beisk>h1 {
+  font-size: xx-large;
+  text-align: center;
+
+}
+
+#beisk>h2 {
+  font-size: x-large;
+  text-align: center;
+
+}
+
+#beisk>p {
+  font-size: large;
+}
+
+#beisk>a>#button {
+  padding: 20px 20px;
+  margin-left: 42%;
+}
+
+
+p {
+  margin-left: 25px;
+  margin-right: 20px;
+}
+
+#lentgomb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 30px;
+  border: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10rem;
+  transition: all 0.02s;
+  font-weight: bold;
+  cursor: pointer;
+  color: rgb(37, 37, 37);
+  z-index: 0;
+  box-shadow: 0 0px 7px -5px rgba(0, 0, 0, 0.5);
+}
+
+#lentgomb:hover {
+  background: rgb(193, 228, 248);
+  color: rgb(33, 0, 85);
+}
+
+#lentgomb:active {
+  transform: scale(0.97);
+}
+
+.hoverEffect {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.hoverEffect div {
+  background: rgb(222, 0, 75);
+  background: linear-gradient(90deg,
+      rgba(222, 0, 75, 1) 0%,
+      rgba(191, 70, 255, 1) 49%,
+      rgba(0, 212, 255, 1) 100%);
+  border-radius: 40rem;
+  width: 10rem;
+  height: 10rem;
+  transition: 0.4s;
+  filter: blur(20px);
+  animation: effect infinite 3s linear;
+  opacity: 0.5;
+}
+
+#lentgomb:hover .hoverEffect div {
+  width: 8rem;
+  height: 8rem;
+}
+
+@keyframes effect {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+marquee {
+  letter-spacing: 50px;
+  background-color: #212121;
+  color: ghostwhite
+}
+
