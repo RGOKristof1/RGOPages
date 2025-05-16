@@ -3,29 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weboldal címe – Rövid leírás</title>
-    <meta name="description" content="Ez egy rövid leírás a weboldaladról.">
-    <meta name="keywords" content="weboldal, webfejlesztés, html, css">
-    
-    <!-- Open Graph a Facebook előnézethez -->
-    <meta property="og:title" content="Weboldal címe">
-    <meta property="og:description" content="Ez egy rövid leírás az oldaladról.">
-    <meta property="og:image" content="https://example.com/images/preview.jpg">
-    <meta property="og:url" content="https://example.com">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="images/favicon.png">
-
-    <!-- Külső CSS fájl -->
-    <link rel="stylesheet" href="css/style.css">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-
-    <!-- JavaScript fájl betöltése -->
-    <script src="js/script.js" defer></script>
-</head>
+    <title>Document</title>
+    <script>
+        function playMusic(){
+    var music = new Audio('.\\moan.mp3');
+    music.play();
+    }
+    </script>
+    <style>
+        #butt{
+            width: 200%;
+            font-size: 10000%;
+            border-color: #ff0000;
+            background-color: #ff0000;
+            color: #ff0000;
+        }
+        body{
+            background-color: #ff0000;
+        }
+    </style>
+    </head>
 <body>
-    <h1>Gyakorlo Page</h1>
+    <button type="button" value="sound" onclick="playMusic()" id="butt">.</button>
 </body>
 </html>
