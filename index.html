@@ -1,29 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Szöveg mentése</title>
-</head>
-<body>
-  <form id="text-form">
-    <textarea id="user-text" rows="5" cols="30"></textarea><br>
-    <button type="submit">Mentés</button>
-  </form>
+<form id="form">
+  <textarea id="text"></textarea>
+  <button type="submit">Mentés</button>
+</form>
 
-  <script>
-    document.getElementById("text-form").addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const text = document.getElementById("user-text").value;
+<ul id="list"></ul>
 
-      await fetch("/save", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ text: text })
-      });
+<script>
+const endpoint = "https://script.google.com/macros/s/AKfycbyKo2kgBrFc1HGnYuzWY5n32GkOsVH7MFwr1X4ZaPpHPOw-Soo3WmywcTHkteSFVN6f/exec"; // ide jön a te URL-ed
 
-      alert("Szöveg elmentve!");
-    });
-  </script>
-</body>
-</html>
+document.getElementById("form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const text = document.getElementById("text").value;
+  await fetch(endpoint, {
+    method: "POST",
+    body: JSON.stringify({ text }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+  alert("Mentve!");
+});
+
+// Olvasás a Sheetből
+async function loadData() {
+  const res = await fetch(endpoint);
+  const data = await res.json();
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+  data.forEach(row => {
+    const li = document.createElement("li");
+    li.textContent = `${row.text} (${row.date})`;
+    list.appendChild(li);
+  });
+}
+loadData();
+</script>
