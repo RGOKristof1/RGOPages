@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Szöveg mentése</title>
+</head>
+<body>
+  <form id="text-form">
+    <textarea id="user-text" rows="5" cols="30"></textarea><br>
+    <button type="submit">Mentés</button>
+  </form>
+
+  <script>
+    document.getElementById("text-form").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const text = document.getElementById("user-text").value;
+
+      await fetch("/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ text: text })
+      });
+
+      alert("Szöveg elmentve!");
+    });
+  </script>
+</body>
+</html>
