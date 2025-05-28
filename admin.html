@@ -214,6 +214,7 @@
     border-radius: 6px;
     margin-top: 20px;
     transition: background-color 0.3s ease;
+    user-select: none;
   }
   .accordion:hover {
     background-color: #444;
@@ -238,20 +239,50 @@
     font-family: monospace;
     font-size: 0.9rem;
     white-space: pre-wrap;
+    user-select: text;
+  }
+  .panel pre {
+    margin: 0;
   }
 </style>
 
-<button class="accordion">JSON szerkesztési hinték (példák)</button>
+<button class="accordion">JSON szerkesztési hinték és példák</button>
 <div class="panel">
-{
+<pre>{
   "tag_id_1": {
-    "text": "Ez a szöveg jelenik meg.",
+    "text": "Egyszerű szöveg, ami megjelenik."
+  },
+
+  "tag_id_2": {
+    "text": "Szöveg mellett kép.",
     "image": "https://example.com/kep.jpg"
   },
-  "tag_id_2": {
-    "text": "Másik szöveg, kép nélkül."
+
+  "tag_id_3": {
+    "text": "Szöveg és link.",
+    "link": "https://példa.hu"
+  },
+
+  "tag_id_4": {
+    "text": "Beágyazott YouTube videó.",
+    "video": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+  },
+
+  "tag_id_5": {
+    "text": "Hangfájl lejátszó.",
+    "audio": "https://example.com/audio.mp3"
+  },
+
+  "tag_id_6": {
+    "text": "Beágyazott HTML tartalom.",
+    "html": "<div style='color: lightblue; font-weight: bold;'>Ez egy beágyazott HTML blokk.</div>"
+  },
+
+  "tag_id_7": {
+    "text": "Csak kép, szöveg nélkül.",
+    "image": "https://example.com/másik-kep.jpg"
   }
-}
+}</pre>
 </div>
 
 <script>
