@@ -1,121 +1,86 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>NFC JSON Admin - GitHub Gist</title>
-<style>
-  body { font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; }
-  textarea { width: 100%; height: 300px; font-family: monospace; font-size: 14px; }
-  input, button { padding: 10px; margin: 5px 0; width: 100%; }
-</style>
+  <meta charset="UTF-8">
+  <title>JSON Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-  <h1>NFC JSON Admin</h1>
+<body class="bg-light">
 
-  <label>GitHub Personal Access Token (saját, olvasási/írási jogok gist-hez):</label>
-  <input type="password" id="token" placeholder="GitHub Token" />
+  <div class="container py-5">
+    <div class="card shadow">
+      <div class="card-header bg-primary text-white">
+        <h3 class="mb-0">🔐 NFC JSON Admin</h3>
+      </div>
+      <div class="card-body">
+        <div id="loginSection">
+          <div class="mb-3">
+            <label for="password" class="form-label">Jelszó:</label>
+            <input type="password" id="password" class="form-control" placeholder="Írd be a szerkesztő jelszót">
+          </div>
+          <button class="btn btn-primary w-100" onclick="checkPassword()">Belépés</button>
+        </div>
 
-  <label>Gist ID:</label>
-  <input type="text" id="gistId" placeholder="Pl: 2c5d42fd93a81ec543fee7762100f308" />
-
-  <button id="loadBtn">Gist Betöltése</button>
-
-  <textarea id="jsonContent" placeholder="JSON tartalom itt jelenik meg..."></textarea>
-
-  <button id="saveBtn">Mentés Gist-be</button>
-
-  <pre id="status"></pre>
+        <div id="editorSection" style="display:none;">
+          <div class="mb-3">
+            <label for="gistId" class="form-label">Gist ID:</label>
+            <input type="text" id="gistId" class="form-control" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="token" class="form-label">GitHub Token:</label>
+            <input type="password" id="token" class="form-control" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="json" class="form-label">JSON Tartalom:</label>
+            <textarea id="json" rows="10" class="form-control" placeholder='{ "id": { "text": "...", "image": "..." } }'></textarea>
+          </div>
+          <button class="btn btn-success w-100" onclick="updateGist()">💾 Mentés</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
-    const tokenInput = document.getElementById('token');
-    const gistIdInput = document.getElementById('gistId');
-    const loadBtn = document.getElementById('loadBtn');
-    const saveBtn = document.getElementById('saveBtn');
-    const jsonContent = document.getElementById('jsonContent');
-    const status = document.getElementById('status');
-
-    let currentGistData = null;
-
-    loadBtn.addEventListener('click', () => {
-      const token = tokenInput.value.trim();
-      const gistId = gistIdInput.value.trim();
-
-      if(!token || !gistId) {
-        status.textContent = "Kérlek add meg a token-t és a gist ID-t!";
-        return;
+    function checkPassword() {
+      const pw = document.getElementById("password").value;
+      if (pw === "titkos123") {
+        document.getElementById("gistId").value = "IDE_A_GIST_ID";
+        document.getElementById("token").value = "IDE_A_GITHUB_TOKEN";
+        document.getElementById("loginSection").style.display = "none";
+        document.getElementById("editorSection").style.display = "block";
+      } else {
+        alert("Hibás jelszó!");
       }
+    }
 
-      status.textContent = "Betöltés...";
+    async function updateGist() {
+      const gistId = document.getElementById("gistId").value;
+      const token = document.getElementById("token").value;
+      const content = document.getElementById("json").value;
 
-      fetch(`https://api.github.com/gists/${gistId}`, {
-        headers: { Authorization: `token ${token}` }
-      })
-      .then(res => {
-        if (!res.ok) throw new Error(`Hiba a betöltéskor: ${res.status}`);
-        return res.json();
-      })
-      .then(data => {
-        // Feltételezzük, hogy 1 fájl van gist-ben, vagy a data.json nevűt használjuk
-        let fileKey = Object.keys(data.files).find(key => key === 'data.json') || Object.keys(data.files)[0];
-        currentGistData = data;
-
-        jsonContent.value = data.files[fileKey].content;
-        status.textContent = "Betöltve: " + fileKey;
-      })
-      .catch(err => {
-        status.textContent = "Hiba: " + err.message;
-      });
-    });
-
-    saveBtn.addEventListener('click', () => {
-      if(!currentGistData) {
-        status.textContent = "Előbb töltsd be a gist-et!";
-        return;
-      }
-
-      const token = tokenInput.value.trim();
-      const gistId = gistIdInput.value.trim();
-      const newContent = jsonContent.value.trim();
-
-      // Valid JSON check
-      try {
-        JSON.parse(newContent);
-      } catch(e) {
-        status.textContent = "Hibás JSON: " + e.message;
-        return;
-      }
-
-      // Módosítjuk a gist fájl tartalmát
-      let fileKey = Object.keys(currentGistData.files).find(key => key === 'data.json') || Object.keys(currentGistData.files)[0];
-
-      const body = {
-        files: {}
-      };
-      body.files[fileKey] = { content: newContent };
-
-      status.textContent = "Mentés folyamatban...";
-
-      fetch(`https://api.github.com/gists/${gistId}`, {
-        method: 'PATCH',
+      const res = await fetch(`https://api.github.com/gists/${gistId}`, {
+        method: "PATCH",
         headers: {
-          Authorization: `token ${token}`,
-          'Content-Type': 'application/json'
+          "Authorization": `Bearer ${token}`,
+          "Accept": "application/vnd.github+json"
         },
-        body: JSON.stringify(body)
-      })
-      .then(res => {
-        if (!res.ok) throw new Error(`Hiba a mentéskor: ${res.status}`);
-        return res.json();
-      })
-      .then(data => {
-        currentGistData = data;
-        status.textContent = "Sikeres mentés!";
-      })
-      .catch(err => {
-        status.textContent = "Hiba: " + err.message;
+        body: JSON.stringify({
+          files: {
+            "data.json": {
+              content: content
+            }
+          }
+        })
       });
-    });
+
+      if (res.ok) {
+        alert("✅ Sikeresen elmentve!");
+      } else {
+        alert("❌ Hiba történt a mentéskor!");
+        console.error(await res.json());
+      }
+    }
   </script>
 </body>
 </html>
