@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NFC Kezdőlap</title>
+<style>
+  body {
+    background-color: #121212;
+    color: #eee;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  h1 {
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+
+  button {
+    background-color: #4a90e2;
+    border: none;
+    padding: 0.8rem 1.8rem;
+    color: white;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 2rem;
+  }
+  button:hover {
+    background-color: #357abd;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 600px;
+    background-color: #1f1f1f;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  thead {
+    background-color: #333;
+  }
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+  }
+  tr:nth-child(even) {
+    background-color: #2a2a2a;
+  }
+
+  #status {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #bbb;
+    min-height: 1.2rem;
+  }
+
+  @media (max-width: 480px) {
+    body {
+      padding: 1rem;
+    }
+    button {
+      width: 100%;
+      font-size: 1rem;
+      padding: 0.7rem 1rem;
+    }
+    table, thead, tbody, th, td, tr {
+      display: block;
+      width: 100%;
+    }
+    thead tr {
+      display: none;
+    }
+    tr {
+      margin-bottom: 1rem;
+      background-color: #1f1f1f;
+      border-radius: 8px;
+      padding: 0.5rem;
+    }
+    td {
+      padding: 0.5rem 1rem;
+      text-align: right;
+      position: relative;
+    }
+    td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 1rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #77aaff;
+      text-align: left;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <h1>NFC Kezdőlap</h1>
+
+  <button id="adminBtn">Bejelentkezés</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Elérhető Tag-ek</th>
+      </tr>
+    </thead>
+    <tbody id="tagsBody">
+      <tr><td>Betöltés...</td></tr>
+    </tbody>
+  </table>
+
+  <div id="status"></div>
+
+<script>
+  const adminBtn = document.getElementById('adminBtn');
+  const tagsBody = document.getElementById('tagsBody');
+  const status = document.getElementById('status');
+
+  const gistId = '2c5d42fd93a81ec543fee7762100f308'; // a gist ID-d
+  const token = ''; // ha privát, ide token, ha publikus, hagyhatod üresen
+
+  adminBtn.addEventListener('click', () => {
+    window.location.href = 'admin.html'; // vagy a login/admin oldalad pontos elérési útja
+  });
+
+  function setStatus(msg) {
+    status.textContent = msg;
+  }
+
+  function loadTagIDs() {
+    setStatus('Betöltés folyamatban...');
+    fetch(`https://api.github.com/gists/${gistId}`, token ? {
+      headers: { Authorization: `token ${token}` }
+    } : {})
+    .then(res => {
+      if(!res.ok) throw new Error(`Hiba a betöltéskor: ${res.status}`);
+      return res.json();
+    })
+    .then(data => {
+      const fileKey = Object.keys(data.files).find(k => ['data.json', 'tags.json'].includes(k)) || Object.keys(data.files)[0];
+      const content = data.files[fileKey].content;
+
+      let jsonData;
+      try {
+        jsonData = JSON.parse(content);
+      } catch (e) {
+        tagsBody.innerHTML = '<tr><td>Hibás JSON formátum.</td></tr>';
+        setStatus('');
+        return;
+      }
+
+      const keys = Object.keys(jsonData);
+      if(keys.length === 0) {
+        tagsBody.innerHTML = '<tr><td>Nincsenek elérhető Tag ID-k.</td></tr>';
+        setStatus('');
+        return;
+      }
+
+      tagsBody.innerHTML = '';
+      keys.forEach(k => {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.textContent = k;
+        tr.appendChild(td);
+        tagsBody.appendChild(tr);
+      });
+
+      setStatus('');
+    })
+    .catch(err => {
+      tagsBody.innerHTML = '<tr><td>Nem sikerült betölteni az adatokat.</td></tr>';
+      setStatus('Hiba: ' + err.message);
+    });
+  }
+
+  loadTagIDs();
+</script>
+
+</body>
+</html>
