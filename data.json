@@ -1,0 +1,12 @@
+{
+  "1234": {
+    "text": "Ez az első NFC tag szövege",
+    "image": "kep1.jpg",
+    "video": "video1.mp4",
+    "audio": "hang1.mp3"
+  },
+  "5678": {
+    "text": "Második tag tartalma",
+    "image": "kep2.jpg"
+  }
+}
