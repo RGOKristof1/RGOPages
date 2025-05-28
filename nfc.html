@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NFC Tartalom</title>
+</head>
+<body>
+  <div id="content"></div>
+
+  <script>
+    // URL paraméter olvasása
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+
+    if (!id) {
+      document.getElementById('content').innerText = "Nincs ID megadva!";
+    } else {
+      fetch('data.json')
+        .then(response => response.json())
+        .then(data => {
+          if (data[id]) {
+            const content = data[id];
+            let html = '';
+            if (content.text) html += `<p>${content.text}</p>`;
+            if (content.image) html += `<img src="${content.image}" alt="Kép" style="max-width:300px;">`;
+            if (content.video) html += `<video src="${content.video}" controls style="max-width:300px;"></video>`;
+            if (content.audio) html += `<audio src="${content.audio}" controls></audio>`;
+            document.getElementById('content').innerHTML = html;
+          } else {
+            document.getElementById('content').innerText = "Nem található tartalom ehhez az ID-hez.";
+          }
+        })
+        .catch(() => {
+          document.getElementById('content').innerText = "Hiba a tartalom betöltésekor.";
+        });
+    }
+  </script>
+</body>
+</html>
