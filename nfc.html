@@ -18,7 +18,7 @@
       output.innerText = "Nincs ID megadva az URL-ben!";
     } else {
       // Itt használd a saját Gist RAW URL-ed!
-      const gistUrl = `https://gist.githubusercontent.com/RGOKristof1/2c5d42fd93a81ec543fee7762100f308/raw/5bb39c999557b17d302168d70aa0a3a8cc9a4241/data.json?${Date.now()}`;
+      const gistUrl = `https://gist.githubusercontent.com/RGOKristof1/2c5d42fd93a81ec543fee7762100f308/raw/data.json?${Date.now()}`;
 
       fetch(gistUrl)
         .then(res => res.json())
