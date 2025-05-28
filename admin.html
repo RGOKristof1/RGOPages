@@ -1,54 +1,120 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>JSON Admin Szerkesztő</title>
-  <style>
-    body { font-family: sans-serif; margin: 20px; }
-    textarea { width: 100%; height: 200px; font-family: monospace; font-size: 14px; }
-    pre { background: #f0f0f0; padding: 10px; white-space: pre-wrap; word-wrap: break-word; }
-    button { margin-top: 10px; padding: 10px 15px; font-size: 16px; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NFC JSON Admin - GitHub Gist</title>
+<style>
+  body { font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; }
+  textarea { width: 100%; height: 300px; font-family: monospace; font-size: 14px; }
+  input, button { padding: 10px; margin: 5px 0; width: 100%; }
+</style>
 </head>
 <body>
-  <h1>JSON Szerkesztő</h1>
-  <textarea id="jsonInput" placeholder="Ide másold be vagy írd a JSON-t..."></textarea>
-  <br />
-  <button id="copyBtn">JSON Másolása</button>
-  <h2>Előnézet:</h2>
-  <pre id="preview"></pre>
+  <h1>NFC JSON Admin</h1>
+
+  <label>GitHub Personal Access Token (saját, olvasási/írási jogok gist-hez):</label>
+  <input type="password" id="token" placeholder="GitHub Token" />
+
+  <label>Gist ID:</label>
+  <input type="text" id="gistId" placeholder="Pl: 2c5d42fd93a81ec543fee7762100f308" />
+
+  <button id="loadBtn">Gist Betöltése</button>
+
+  <textarea id="jsonContent" placeholder="JSON tartalom itt jelenik meg..."></textarea>
+
+  <button id="saveBtn">Mentés Gist-be</button>
+
+  <pre id="status"></pre>
 
   <script>
-    const textarea = document.getElementById('jsonInput');
-    const preview = document.getElementById('preview');
-    const copyBtn = document.getElementById('copyBtn');
+    const tokenInput = document.getElementById('token');
+    const gistIdInput = document.getElementById('gistId');
+    const loadBtn = document.getElementById('loadBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const jsonContent = document.getElementById('jsonContent');
+    const status = document.getElementById('status');
 
-    // Ha már van mentett JSON localStorage-ban, betöltjük
-    if(localStorage.getItem('jsonData')) {
-      textarea.value = localStorage.getItem('jsonData');
-      updatePreview();
-    }
+    let currentGistData = null;
 
-    // Preview frissítése és localStorage-ba mentés
-    textarea.addEventListener('input', () => {
-      updatePreview();
-      localStorage.setItem('jsonData', textarea.value);
+    loadBtn.addEventListener('click', () => {
+      const token = tokenInput.value.trim();
+      const gistId = gistIdInput.value.trim();
+
+      if(!token || !gistId) {
+        status.textContent = "Kérlek add meg a token-t és a gist ID-t!";
+        return;
+      }
+
+      status.textContent = "Betöltés...";
+
+      fetch(`https://api.github.com/gists/${gistId}`, {
+        headers: { Authorization: `token ${token}` }
+      })
+      .then(res => {
+        if (!res.ok) throw new Error(`Hiba a betöltéskor: ${res.status}`);
+        return res.json();
+      })
+      .then(data => {
+        // Feltételezzük, hogy 1 fájl van gist-ben, vagy a data.json nevűt használjuk
+        let fileKey = Object.keys(data.files).find(key => key === 'data.json') || Object.keys(data.files)[0];
+        currentGistData = data;
+
+        jsonContent.value = data.files[fileKey].content;
+        status.textContent = "Betöltve: " + fileKey;
+      })
+      .catch(err => {
+        status.textContent = "Hiba: " + err.message;
+      });
     });
 
-    function updatePreview() {
-      try {
-        const obj = JSON.parse(textarea.value);
-        preview.textContent = JSON.stringify(obj, null, 2);
-      } catch (e) {
-        preview.textContent = "Hibás JSON: " + e.message;
+    saveBtn.addEventListener('click', () => {
+      if(!currentGistData) {
+        status.textContent = "Előbb töltsd be a gist-et!";
+        return;
       }
-    }
 
-    copyBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(textarea.value)
-        .then(() => alert('JSON kimásolva a vágólapra!'))
-        .catch(() => alert('Sajnos nem sikerült kimásolni.'));
+      const token = tokenInput.value.trim();
+      const gistId = gistIdInput.value.trim();
+      const newContent = jsonContent.value.trim();
+
+      // Valid JSON check
+      try {
+        JSON.parse(newContent);
+      } catch(e) {
+        status.textContent = "Hibás JSON: " + e.message;
+        return;
+      }
+
+      // Módosítjuk a gist fájl tartalmát
+      let fileKey = Object.keys(currentGistData.files).find(key => key === 'data.json') || Object.keys(currentGistData.files)[0];
+
+      const body = {
+        files: {}
+      };
+      body.files[fileKey] = { content: newContent };
+
+      status.textContent = "Mentés folyamatban...";
+
+      fetch(`https://api.github.com/gists/${gistId}`, {
+        method: 'PATCH',
+        headers: {
+          Authorization: `token ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      })
+      .then(res => {
+        if (!res.ok) throw new Error(`Hiba a mentéskor: ${res.status}`);
+        return res.json();
+      })
+      .then(data => {
+        currentGistData = data;
+        status.textContent = "Sikeres mentés!";
+      })
+      .catch(err => {
+        status.textContent = "Hiba: " + err.message;
+      });
     });
   </script>
 </body>
