@@ -1,36 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>NFC Tartalom</title>
 </head>
 <body>
-  <div id="content"></div>
+  <h2>Tartalom</h2>
+  <div id="output">Betöltés...</div>
 
   <script>
-    // URL paraméter olvasása
     const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
+    const id = params.get("id");
+
+    const output = document.getElementById("output");
 
     if (!id) {
-      document.getElementById('content').innerText = "Nincs ID megadva!";
+      output.innerText = "Nincs ID megadva az URL-ben!";
     } else {
-      fetch('data.json')
-        .then(response => response.json())
+      // Itt használd a saját Gist RAW URL-ed!
+      const gistUrl = "https://gist.githubusercontent.com/rgokristof1/abc1234567890abcdef/raw/data.json";
+
+      fetch(gistUrl)
+        .then(res => res.json())
         .then(data => {
           if (data[id]) {
-            const content = data[id];
-            let html = '';
-            if (content.text) html += `<p>${content.text}</p>`;
-            if (content.image) html += `<img src="${content.image}" alt="Kép" style="max-width:300px;">`;
-            if (content.video) html += `<video src="${content.video}" controls style="max-width:300px;"></video>`;
-            if (content.audio) html += `<audio src="${content.audio}" controls></audio>`;
-            document.getElementById('content').innerHTML = html;
+            let html = "";
+
+            if (data[id].text) html += `<p>${data[id].text}</p>`;
+            if (data[id].image) html += `<img src="${data[id].image}" style="max-width:300px;">`;
+
+            output.innerHTML = html;
           } else {
-            document.getElementById('content').innerText = "Nem található tartalom ehhez az ID-hez.";
+            output.innerText = "Nincs tartalom ehhez az ID-hez.";
           }
         })
-        .catch(() => {
-          document.getElementById('content').innerText = "Hiba a tartalom betöltésekor.";
+        .catch(err => {
+          output.innerText = "Nem sikerült betölteni az adatokat.";
+          console.error(err);
         });
     }
   </script>
