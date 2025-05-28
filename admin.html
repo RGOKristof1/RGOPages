@@ -200,6 +200,73 @@
     });
   });
 </script>
+<style>
+  .accordion {
+    background-color: #222;
+    color: #eee;
+    cursor: pointer;
+    padding: 12px 20px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+  }
+  .accordion:hover {
+    background-color: #444;
+  }
+  .accordion:after {
+    content: '\25BC'; /* lefelé nyíl */
+    float: right;
+    margin-left: 5px;
+    transition: transform 0.3s ease;
+  }
+  .accordion.active:after {
+    transform: rotate(180deg); /* felfelé nyíl */
+  }
+  .panel {
+    background-color: #1a1a1a;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0 20px;
+    border-radius: 0 0 6px 6px;
+    color: #ccc;
+    font-family: monospace;
+    font-size: 0.9rem;
+    white-space: pre-wrap;
+  }
+</style>
+
+<button class="accordion">JSON szerkesztési hinték (példák)</button>
+<div class="panel">
+{
+  "tag_id_1": {
+    "text": "Ez a szöveg jelenik meg.",
+    "image": "https://example.com/kep.jpg"
+  },
+  "tag_id_2": {
+    "text": "Másik szöveg, kép nélkül."
+  }
+}
+</div>
+
+<script>
+  const acc = document.querySelector('.accordion');
+  const panel = document.querySelector('.panel');
+
+  acc.addEventListener('click', () => {
+    acc.classList.toggle('active');
+    if(panel.style.maxHeight){
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+  });
+</script>
 
 </body>
 </html>
