@@ -8,7 +8,7 @@
   body {
     font-family: monospace, monospace;
     max-width: 700px;
-    margin: 2rem auto;
+    margin: 1rem auto;
     padding: 1rem;
     background-color: #121212;
     color: #eee;
@@ -27,6 +27,7 @@
     background-color: #1e1e1e;
     color: #eee;
     font-size: 1rem;
+    box-sizing: border-box;
   }
   input:focus, textarea:focus {
     outline: none;
@@ -51,22 +52,32 @@
     padding: 0.6rem;
     min-height: 1.4rem;
     user-select: none;
-  }
-  #login-section {
-    transition: opacity 0.3s ease;
-  }
-  #login-section.hidden {
-    opacity: 0;
-    height: 0;
+    white-space: nowrap;
     overflow: hidden;
-    margin: 0;
-    padding: 0;
+    text-overflow: ellipsis;
   }
   textarea {
-    height: 400px;
+    height: 300px;
     font-family: monospace;
     font-size: 14px;
     resize: vertical;
+    min-height: 150px;
+  }
+
+  /* Responsive kisebb képernyőkre */
+  @media (max-width: 480px) {
+    body {
+      margin: 0.5rem;
+      padding: 0.5rem;
+    }
+    textarea {
+      height: 200px;
+      font-size: 13px;
+    }
+    input, button {
+      font-size: 0.9rem;
+      padding: 0.5rem;
+    }
   }
 </style>
 </head>
@@ -81,8 +92,9 @@
     <label for="gistId">Gist ID:</label>
     <input type="text" id="gistId" placeholder="Pl: 2c5d42fd93a81ec543fee7762100f308" autocomplete="off" />
 
-    <button id="loadBtn">Gist Betöltése</button>
   </div>
+
+  <button id="loadBtn">Gist Betöltése</button>
 
   <textarea id="jsonContent" placeholder="JSON tartalom itt jelenik meg..." style="display:none;"></textarea>
 
@@ -109,7 +121,7 @@
     const token = tokenInput.value.trim();
     const gistId = gistIdInput.value.trim();
 
-    if(!token || !gistId) {
+    if (!token || !gistId) {
       setStatus("Kérlek add meg a token-t és a gist ID-t!");
       return;
     }
@@ -130,8 +142,11 @@
       jsonContent.value = data.files[fileKey].content;
       setStatus("Betöltve: " + fileKey);
 
-      // Elrejtjük a login részt, megmutatjuk az editort
-      loginSection.classList.add('hidden');
+      // Token és gist ID mezők eltűnnek, csak a load gomb marad
+      loginSection.style.display = 'none';
+      loadBtn.style.display = 'inline-block';
+
+      // Megjelenítjük az editort és mentés gombot
       jsonContent.style.display = 'block';
       saveBtn.style.display = 'block';
     })
@@ -141,7 +156,7 @@
   });
 
   saveBtn.addEventListener('click', () => {
-    if(!currentGistData) {
+    if (!currentGistData) {
       setStatus("Előbb töltsd be a gist-et!");
       return;
     }
@@ -152,7 +167,7 @@
 
     try {
       JSON.parse(newContent);
-    } catch(e) {
+    } catch (e) {
       setStatus("Hibás JSON: " + e.message);
       return;
     }
