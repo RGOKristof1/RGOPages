@@ -59,49 +59,39 @@
   <div id="output">Betöltés...</div>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
 
-    const output = document.getElementById("output");
+  const output = document.getElementById("output");
 
-    if (!id) {
-      output.innerText = "Nincs ID megadva az URL-ben!";
-    } else {
-      // Itt használd a saját Gist RAW URL-ed!
-      const gistUrl = "https://gist.githubusercontent.com/RGOKristof1/2c5d42fd93a81ec543fee7762100f308/raw/data.json?" + Date.now();
+  if (!id) {
+    output.innerText = "Nincs ID megadva az URL-ben!";
+  } else {
+    const gistUrl = "https://gist.githubusercontent.com/RGOKristof1/2c5d42fd93a81ec543fee7762100f308/raw/data.json?" + Date.now();
 
-      fetch(gistUrl)
+    fetch(gistUrl)
+      .then(res => res.json())
+      .then(data => {
         if (data[id]) {
-  let html = "";
+          let html = "";
 
-  if (data[id].text) html += `<p>${data[id].text}</p>`;
-  if (data[id].image) html += `<img src="${data[id].image}">`;
-  if (data[id].link) html += `<p><a href="${data[id].link}" target="_blank">Megnyitás: ${data[id].link}</a></p>`;
-  if (data[id].video) html += `<iframe src="${data[id].video}" allowfullscreen></iframe>`;
-  if (data[id].audio) html += `<audio controls src="${data[id].audio}"></audio>`;
-  if (data[id].html) html += `${data[id].html}`;
+          if (data[id].text) html += `<p>${data[id].text}</p>`;
+          if (data[id].image) html += `<img src="${data[id].image}">`;
+          if (data[id].link) html += `<p><a href="${data[id].link}" target="_blank">Megnyitás: ${data[id].link}</a></p>`;
+          if (data[id].video) html += `<iframe src="${data[id].video}" allowfullscreen></iframe>`;
+          if (data[id].audio) html += `<audio controls src="${data[id].audio}"></audio>`;
+          if (data[id].html) html += `${data[id].html}`;
 
-  output.innerHTML = html;
-}
-
-        .then(res => res.json())
-        .then(data => {
-          if (data[id]) {
-            let html = "";
-
-            if (data[id].text) html += `<p>${data[id].text}</p>`;
-            if (data[id].image) html += `<img src="${data[id].image}" style="max-width:300px;">`;
-
-            output.innerHTML = html;
-          } else {
-            output.innerText = "Nincs tartalom ehhez az ID-hez.";
-          }
-        })
-        .catch(err => {
-          output.innerText = "Nem sikerült betölteni az adatokat.";
-          console.error(err);
-        });
-    }
-  </script>
+          output.innerHTML = html;
+        } else {
+          output.innerText = "Nincs tartalom ehhez az ID-hez.";
+        }
+      })
+      .catch(err => {
+        output.innerText = "Nem sikerült betölteni az adatokat.";
+        console.error("HIBA:", err);
+      });
+  }
+</script>
 </body>
 </html>
