@@ -1,303 +1,136 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>NFC JSON Admin - GitHub Gist (Sötét mód)</title>
-<style>
-  body {
-    font-family: monospace, monospace;
-    max-width: 700px;
-    margin: 1rem auto;
-    padding: 1rem;
-    background-color: #121212;
-    color: #eee;
-  }
-  label {
-    display: block;
-    margin: 0.8rem 0 0.3rem 0;
-    color: #bbb;
-  }
-  input, button, textarea {
-    width: 100%;
-    padding: 0.7rem;
-    margin-bottom: 0.7rem;
-    border-radius: 5px;
-    border: 1px solid #444;
-    background-color: #1e1e1e;
-    color: #eee;
-    font-size: 1rem;
-    box-sizing: border-box;
-  }
-  input:focus, textarea:focus {
-    outline: none;
-    border-color: #5599ff;
-    background-color: #292929;
-  }
-  button {
-    cursor: pointer;
-    background-color: #5599ff;
-    border: none;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-  }
-  button:hover {
-    background-color: #3377ff;
-  }
-  #status {
-    font-family: monospace;
-    background-color: #222;
-    border: 1px solid #444;
-    color: #ccc;
-    padding: 0.6rem;
-    min-height: 1.4rem;
-    user-select: none;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  textarea {
-    height: 300px;
-    font-family: monospace;
-    font-size: 14px;
-    resize: vertical;
-    min-height: 150px;
-  }
-
-  /* Responsive kisebb képernyőkre */
-  @media (max-width: 480px) {
-    body {
-      margin: 0.5rem;
-      padding: 0.5rem;
-    }
-    textarea {
-      height: 200px;
-      font-size: 13px;
-    }
-    input, button {
-      font-size: 0.9rem;
-      padding: 0.5rem;
-    }
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NFC JSON Admin - Vizualizált</title>
+  <style>
+    body { font-family: sans-serif; background: #121212; color: #eee; max-width: 600px; margin: auto; padding: 20px; }
+    input[type="text"] { width: 100%; padding: 8px; margin-bottom: 5px; background: #1e1e1e; color: white; border: 1px solid #444; }
+    button { padding: 8px; margin-top: 10px; background: #333; color: white; border: none; cursor: pointer; }
+    button:hover { background: #555; }
+    .tag-box { margin-bottom: 15px; background: #1e1e1e; padding: 10px; border-radius: 8px; position: relative; }
+    .remove-btn { position: absolute; right: 10px; top: 10px; color: red; background: none; border: none; font-weight: bold; cursor: pointer; }
+  </style>
 </head>
 <body>
 
-  <h1>NFC JSON Admin</h1>
+  <h2>Tag szerkesztés</h2>
 
-  <div id="login-section">
-    <label for="token">GitHub Personal Access Token (gist-hez olvasási/írási jogok):</label>
-    <input type="password" id="token" placeholder="GitHub Token" autocomplete="off" />
+  <label for="token">GitHub Token:</label>
+  <input type="password" id="token" placeholder="Token" />
 
-    <label for="gistId">Gist ID:</label>
-    <input type="text" id="gistId" placeholder="Pl: 2c5d42fd93a81ec543fee7762100f308" autocomplete="off" />
+  <label for="gistId">Gist ID:</label>
+  <input type="text" id="gistId" placeholder="Gist ID" />
 
-  </div>
+  <button onclick="loadGist()">Betöltés</button>
 
-  <button id="loadBtn">Gist Betöltése</button>
+  <div id="tagsContainer"></div>
 
-  <textarea id="jsonContent" placeholder="JSON tartalom itt jelenik meg..." style="display:none;"></textarea>
+  <h3>Új tag hozzáadása</h3>
+  <input type="text" id="newTagName" placeholder="Új tag neve" />
+  <button onclick="addNewTag()">Hozzáadás</button>
 
-  <button id="saveBtn" style="display:none;">Mentés Gist-be</button>
+  <br><br>
+  <button onclick="saveToGist()">Mentés Gist-be</button>
 
   <pre id="status"></pre>
 
-<script>
-  const tokenInput = document.getElementById('token');
-  const gistIdInput = document.getElementById('gistId');
-  const loadBtn = document.getElementById('loadBtn');
-  const saveBtn = document.getElementById('saveBtn');
-  const jsonContent = document.getElementById('jsonContent');
-  const status = document.getElementById('status');
-  const loginSection = document.getElementById('login-section');
+  <script>
+    let currentData = {};
+    const container = document.getElementById('tagsContainer');
 
-  let currentGistData = null;
+    function loadGist() {
+      const token = document.getElementById('token').value;
+      const gistId = document.getElementById('gistId').value;
 
-  function setStatus(msg) {
-    status.textContent = msg;
-  }
-
-  loadBtn.addEventListener('click', () => {
-    const token = tokenInput.value.trim();
-    const gistId = gistIdInput.value.trim();
-
-    if (!token || !gistId) {
-      setStatus("Kérlek add meg a token-t és a gist ID-t!");
-      return;
+      fetch(`https://api.github.com/gists/${gistId}`, {
+        headers: { Authorization: `token ${token}` }
+      })
+      .then(res => res.json())
+      .then(data => {
+        const fileKey = Object.keys(data.files).find(key => key === 'data.json') || Object.keys(data.files)[0];
+        currentData = JSON.parse(data.files[fileKey].content);
+        renderTags();
+      })
+      .catch(err => {
+        document.getElementById('status').textContent = "Hiba: " + err.message;
+      });
     }
 
-    setStatus("Betöltés...");
+    function renderTags() {
+      container.innerHTML = '';
+      Object.keys(currentData).forEach(tag => {
+        const box = document.createElement('div');
+        box.className = 'tag-box';
 
-    fetch(`https://api.github.com/gists/${gistId}`, {
-      headers: { Authorization: `token ${token}` }
-    })
-    .then(res => {
-      if (!res.ok) throw new Error(`Hiba a betöltéskor: ${res.status}`);
-      return res.json();
-    })
-    .then(data => {
-      let fileKey = Object.keys(data.files).find(key => key === 'data.json') || Object.keys(data.files)[0];
-      currentGistData = data;
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = currentData[tag].text || currentData[tag].link || '';
+        input.placeholder = 'Szöveg vagy link...';
+        input.oninput = () => {
+          const val = input.value.trim();
+          if (val.startsWith('http')) {
+            currentData[tag] = { link: val };
+          } else {
+            currentData[tag] = { text: val };
+          }
+        };
 
-      jsonContent.value = data.files[fileKey].content;
-      setStatus("Betöltve: " + fileKey);
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-btn';
+        removeBtn.innerText = 'X';
+        removeBtn.onclick = () => {
+          if (confirm(`Biztos törölni akarod a "${tag}" taget?`)) {
+            delete currentData[tag];
+            renderTags();
+          }
+        };
 
-      // Token és gist ID mezők eltűnnek, csak a load gomb marad
-      loginSection.style.display = 'none';
-      loadBtn.style.display = 'inline-block';
-
-      // Megjelenítjük az editort és mentés gombot
-      jsonContent.style.display = 'block';
-      saveBtn.style.display = 'block';
-    })
-    .catch(err => {
-      setStatus("Hiba: " + err.message);
-    });
-  });
-
-  saveBtn.addEventListener('click', () => {
-    if (!currentGistData) {
-      setStatus("Előbb töltsd be a gist-et!");
-      return;
+        box.appendChild(input);
+        box.appendChild(removeBtn);
+        container.appendChild(box);
+      });
     }
 
-    const token = tokenInput.value.trim();
-    const gistId = gistIdInput.value.trim();
-    const newContent = jsonContent.value.trim();
-
-    try {
-      JSON.parse(newContent);
-    } catch (e) {
-      setStatus("Hibás JSON: " + e.message);
-      return;
+    function addNewTag() {
+      const name = document.getElementById('newTagName').value.trim();
+      if (name && !currentData[name]) {
+        currentData[name] = { text: "" };
+        renderTags();
+        document.getElementById('newTagName').value = '';
+      } else {
+        alert("Adj meg egy egyedi tag nevet!");
+      }
     }
 
-    let fileKey = Object.keys(currentGistData.files).find(key => key === 'data.json') || Object.keys(currentGistData.files)[0];
+    function saveToGist() {
+      const token = document.getElementById('token').value;
+      const gistId = document.getElementById('gistId').value;
 
-    const body = { files: {} };
-    body.files[fileKey] = { content: newContent };
+      const body = {
+        files: {
+          'data.json': { content: JSON.stringify(currentData, null, 2) }
+        }
+      };
 
-    setStatus("Mentés folyamatban...");
-
-    fetch(`https://api.github.com/gists/${gistId}`, {
-      method: 'PATCH',
-      headers: {
-        Authorization: `token ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
-    .then(res => {
-      if (!res.ok) throw new Error(`Hiba a mentéskor: ${res.status}`);
-      return res.json();
-    })
-    .then(data => {
-      currentGistData = data;
-      setStatus("Sikeres mentés!");
-    })
-    .catch(err => {
-      setStatus("Hiba: " + err.message);
-    });
-  });
-</script>
-<style>
-  .accordion {
-    background-color: #222;
-    color: #333;
-    cursor: pointer;
-    padding: 12px 20px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 1.1rem;
-    border-radius: 6px;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
-    user-select: none;
-  }
-  .accordion:hover {
-    background-color: #444;
-  }
-  .accordion:after {
-    content: '\25BC'; /* lefelé nyíl */
-    float: right;
-    margin-left: 5px;
-    transition: transform 0.3s ease;
-  }
-  .accordion.active:after {
-    transform: rotate(180deg); /* felfelé nyíl */
-  }
-  .panel {
-    background-color: #1a1a1a;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-    padding: 0 20px;
-    border-radius: 0 0 6px 6px;
-    color: #ccc;
-    font-family: monospace;
-    font-size: 0.9rem;
-    white-space: pre-wrap;
-    user-select: text;
-  }
-  .panel pre {
-    margin: 0;
-  }
-</style>
-
-<button class="accordion" style="color:#333;">JSON szerkesztési hintek és példák</button>
-<div class="panel">
-<pre>{
-  "tag_id_1": {
-    "text": "Egyszerű szöveg, ami megjelenik."
-  },
-
-  "tag_id_2": {
-    "text": "Szöveg mellett kép.",
-    "image": "https://example.com/kep.jpg"
-  },
-
-  "tag_id_3": {
-    "text": "Szöveg és link.",
-    "link": "https://példa.hu"
-  },
-
-  "tag_id_4": {
-    "text": "Beágyazott YouTube videó.",
-    "video": "https://www.youtube.com/embed/dQw4w9WgXcQ"
-  },
-
-  "tag_id_5": {
-    "text": "Hangfájl lejátszó.",
-    "audio": "https://example.com/audio.mp3"
-  },
-
-  "tag_id_6": {
-    "text": "Beágyazott HTML tartalom.",
-    "html": "<div style='color: lightblue; font-weight: bold;'>Ez egy beágyazott HTML blokk.</div>"
-  },
-
-  "tag_id_7": {
-    "text": "Csak kép, szöveg nélkül.",
-    "image": "https://example.com/másik-kep.jpg"
-  }
-}</pre>
-</div>
-
-<script>
-  const acc = document.querySelector('.accordion');
-  const panel = document.querySelector('.panel');
-
-  acc.addEventListener('click', () => {
-    acc.classList.toggle('active');
-    if(panel.style.maxHeight){
-      panel.style.maxHeight = null;
-    } else {
-      panel.style.maxHeight = panel.scrollHeight + "px";
+      fetch(`https://api.github.com/gists/${gistId}`, {
+        method: 'PATCH',
+        headers: {
+          Authorization: `token ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('status').textContent = "Sikeresen elmentve!";
+      })
+      .catch(err => {
+        document.getElementById('status').textContent = "Hiba mentés közben: " + err.message;
+      });
     }
-  });
-</script>
-
+  </script>
 </body>
 </html>
+
