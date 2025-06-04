@@ -10,12 +10,23 @@ cool-gray = 9FA0C3
 
 body {
   background-color: #403F4C;
+  margin: 0;
+}
+
+.margin-zero {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .rgopages-logo-style {
-  width: 100px;
-  margin-top: 0;
-  margin-left: 0;
-  margin-bottom: 0;
-  margin-right: 0;
+  width: 10%;
+  min-width: 100px;
+  max-width: 200px;
+  margin: 0.5%;
+}
+
+.menu-piece-style {
+  width: 100%;
 }
