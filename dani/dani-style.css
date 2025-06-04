@@ -1,8 +1,23 @@
 .texts {
   font-family: Arial;
   text-align: center;
-  border: 20px;
+  border-style: solid;
+  border: 50%;
   border-color: black;
+  border-radius: ;
+  background-color: #be4b4b;
+  padding: 4%;
+}
+.button{
+  width: 50%;
+  height: 50%;
+  font-size: 250%;
+  padding: 20px;
+}
+.margin-zero{
+  margin-top: 4%;
+  margin-bottom: 4%;
+
 }
 body {
   background-color: rgb(243, 255, 79);
