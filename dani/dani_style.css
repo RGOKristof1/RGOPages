@@ -1,0 +1,9 @@
+.texts {
+  font-family: Arial;
+  text-align: center;
+  border: 20px;
+  border-color: black;
+}
+body {
+  background-color: rgb(243, 255, 79);
+}
