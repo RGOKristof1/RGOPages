@@ -28,5 +28,8 @@ body {
 }
 
 .menu-piece-style {
-  width: 100%;
+  width: 10%;
+  min-width: 100px;
+  max-width: 200px;
+  margin: 0.5%;
 }
