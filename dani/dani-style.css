@@ -14,6 +14,9 @@
   height: 50%;
   font-size: 250%;
   padding: 2%;
+  background-color: #c92626;
+  color: #2e0000;
+  border-style: solid;
 }
 .margin-zero{
   margin-top: 4%;
