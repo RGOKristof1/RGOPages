@@ -1,0 +1,21 @@
+/* 
+Szin kodok
+kek = #27273e 
+pink = #f2c7f2
+orange = #dc5e00
+bg-zsurke = 403F4C
+cool-gray = 9FA0C3
+*/
+
+
+body {
+  background-color: #403F4C;
+}
+
+.rgopages-logo-style {
+  width: 100px;
+  margin-top: 0;
+  margin-left: 0;
+  margin-bottom: 0;
+  margin-right: 0;
+}
