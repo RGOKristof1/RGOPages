@@ -3,7 +3,9 @@ body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
+html, body {
+    min-height: 100vh;
+}
 .cím {
     text-align: center;
     color: #301934;
