@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <title>DMG%</title>
+    <link rel="stylesheet" href="dmg-style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <div class="d-flex align-items-center">
+                <a class="nav-link text-white me-4" href="#calc">DMG&nbsp;Calc</a>
+                <a class="nav-link text-white me-auto" href="#history">History</a>
+            </div>
+
+            <div class="mx-auto"></div>
+
+            <div class="d-flex align-items-center">
+                <button class="btn btn-outline-light me-2" title="Globe" onclick="toggleLanguage()">🌐</button>
+                <button onclick="toggleDarkMode()" class="btn btn-outline-light ">Sötét&nbsp;mód</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <h1 class="cím" id="calc">DMG Százalék Calculator</h1>
+            <div class="col-md-6">
+                <form id="dmgForm">
+                    <label>
+                        <p>Top</p>
+                        <input type="number" id="top" required class="form-control text-center" min="0"
+                            placeholder="Damage">
+                    </label>
+                    <label>
+                        <p>Jungle</p>
+                        <input type="number" id="jg" required class="form-control text-center" min="0"
+                            placeholder="Damage">
+                    </label>
+                    <label>
+                        <p>Mid</p>
+                        <input type="number" id="mid" required class="form-control text-center" min="0"
+                            placeholder="Damage">
+                    </label>
+                    <label>
+                        <p>Adc</p>
+                        <input type="number" id="adc" required class="form-control text-center" min="0"
+                            placeholder="Damage">
+                    </label>
+                    <label>
+                        <p>Support</p>
+                        <input type="number" id="sup" required class="form-control text-center" min="0"
+                            placeholder="Damage">
+                    </label>
+
+                    <button type="submit" class="btn btn-primary mt-3">Számítás</button>
+                </form>
+            </div>
+            <div class="col-md-6 center-wrapper">
+                <div class="result" id="eredmeny"></div>
+            </div>
+        </div>
+        <hr>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-3">
+                    <h2 class="alcím">Előzmények: </h2>
+                </div>
+                <div class="col-6">
+                    <div id="history"></div>
+                </div>
+                <div class="col-3">
+                    <button onclick="torolHistory()" class="btn btn-danger mt-3">Előzmények törlése</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        const historyKey = 'dmgHistory';
+        let currentLang = 'hu';
+
+        function szinez(szazalek, szerep) {
+            const szabalyok = {
+                top: [10, 20],
+                jg: [10, 20],
+                mid: [25, 35],
+                adc: [25, 35],
+                sup: [5, 15],
+            };
+            const [low, midVal] = szabalyok[szerep];
+            if (szazalek < low) return 'piros';
+            if (szazalek < midVal) return 'wheat';
+            return 'zold';
+        }
+
+        function frissitHistory() {
+            const historyDiv = document.getElementById('history');
+            const mentett = JSON.parse(localStorage.getItem(historyKey)) || [];
+            historyDiv.innerHTML = '';
+            mentett.forEach((elem) => {
+                const blokk = document.createElement('div');
+                blokk.className = 'mb-3 p-2 border rounded';
+                blokk.innerHTML = `<strong>${elem.datum}</strong><br>` +
+                    Object.entries(elem.eredmenyek).map(([key, val]) => `${key.toUpperCase()}: ${val}%`).join('<br>');
+                historyDiv.appendChild(blokk);
+            });
+        }
+
+        function torolHistory() {
+            localStorage.removeItem(historyKey);
+            frissitHistory();
+        }
+
+        document.getElementById('dmgForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const top = parseInt(document.getElementById('top').value) || 0;
+            const jg = parseInt(document.getElementById('jg').value) || 0;
+            const mid = parseInt(document.getElementById('mid').value) || 0;
+            const adc = parseInt(document.getElementById('adc').value) || 0;
+            const sup = parseInt(document.getElementById('sup').value) || 0;
+
+            const total = top + jg + mid + adc + sup;
+
+            if (total === 0) {
+                alert(currentLang === 'en' ? 'Please enter values greater than zero.' : 'Kérlek adj meg 0-nál nagyobb értékeket!');
+                return;
+            }
+
+            const eredmenyek = {
+                top: ((top / total) * 100).toFixed(2),
+                jg: ((jg / total) * 100).toFixed(2),
+                mid: ((mid / total) * 100).toFixed(2),
+                adc: ((adc / total) * 100).toFixed(2),
+                sup: ((sup / total) * 100).toFixed(2),
+            };
+
+            let output = `<h2>${currentLang === 'en' ? 'Results:' : 'Eredmények:'}</h2>`;
+            for (let key in eredmenyek) {
+                const szin = szinez(Number(eredmenyek[key]), key);
+                output += `<div class="${szin}">${key.toUpperCase()}: ${eredmenyek[key]}%</div>`;
+            }
+
+            document.getElementById('eredmeny').innerHTML = output;
+
+            const mentett = JSON.parse(localStorage.getItem(historyKey)) || [];
+            mentett.push({ datum: new Date().toLocaleString(), eredmenyek });
+            localStorage.setItem(historyKey, JSON.stringify(mentett));
+            frissitHistory();
+        });
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        function toggleLanguage() {
+            const cim = document.querySelector('h1.cím');
+            const alcim = document.querySelector('.alcím');
+            const darkBtn = document.querySelector('button[onclick="toggleDarkMode()"]');
+            const calcBtn = document.querySelector('#dmgForm button[type="submit"]');
+            const clearBtn = document.querySelector('.btn-danger');
+            const labels = document.querySelectorAll('#dmgForm label p');
+
+            if (currentLang === 'hu') {
+                // → ANGOLRA
+                cim.textContent = 'DMG Percentage Calculator';
+                alcim.textContent = 'History:';
+                darkBtn.innerHTML = 'Dark&nbsp;mode';
+                calcBtn.textContent = 'Calculate';
+                clearBtn.textContent = 'Clear History';
+
+                const angolLabel = ['Top', 'Jungle', 'Mid', 'Adc', 'Support'];
+                labels.forEach((label, i) => {
+                    label.textContent = angolLabel[i];
+                });
+
+                currentLang = 'en';
+            } else {
+                // → MAGYARRA
+                cim.textContent = 'DMG Százalék Számító';
+                alcim.textContent = 'Előzmények:';
+                darkBtn.innerHTML = 'Sötét&nbsp;mód';
+                calcBtn.textContent = 'Számítás';
+                clearBtn.textContent = 'Előzmények törlése';
+
+                const magyarLabel = ['Top', 'Jungle', 'Mid', 'Adc', 'Support'];
+                labels.forEach((label, i) => {
+                    label.textContent = magyarLabel[i];
+                });
+
+                currentLang = 'hu';
+            }
+
+            const eredmenyDiv = document.getElementById('eredmeny');
+            if (eredmenyDiv.innerHTML.trim() !== '') {
+                eredmenyDiv.innerHTML = eredmenyDiv.innerHTML.replace(
+                    /<h2>.*<\/h2>/,
+                    `<h2>${currentLang === 'en' ? 'Results:' : 'Eredmények:'}</h2>`
+                );
+            }
+        }
+    </script>
+</body>
+
+</html>
