@@ -36,8 +36,9 @@ align-items: center;
 }
 
 .nav-button {
-  color: rgba(242, 199, 242, 1);
+  color: rgba(242, 199, 242, 0);
   text-decoration: none;
+  transition: color 0.2s;
 }
 
 .rgo-parent {
@@ -54,4 +55,7 @@ align-items: center;
 .ro {
   position: relative;
   right: 0.2vw;
+}
+.nav-parent:hover .nav-button {
+  color: rgba(242, 199, 242, 1);
 }
