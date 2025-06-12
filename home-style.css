@@ -16,34 +16,37 @@ cool-gray = 9FA0C3
 body {
   background-color: #403F4C;
   margin: 0;
-}
-
-.rgopages-logo {
-  min-width: 100px;
-  max-width: 500px;
-  width: 20%;
+  font-family: bank;
 }
 
 .nav-parent {
 display: flex;
 justify-content: center;
 align-items: center;
-height: auto;
-margin-top: 10px;
-margin-left: 5px;
-margin-right: 5px;
+}
+.child {
+  display: flex;
+  width: 17%;
+  min-width: 70px;
+  justify-content: center;
+  align-items: center;
+}
+.child a {
+  font-size: 100%;
 }
 
 .nav-button {
   color: rgba(242, 199, 242, 1);
-  font-size: 4vw;
-  font-family: Bank;
+  text-decoration: none;
 }
-.nav-button-left {
-  margin-right: 2%;
-  text-align: left;
+
+.rgo-parent {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
-.nav-button-right {
-  margin-left: 2%;
-  text-align: right;
+.rgo-parent p {
+  color: rgba(242, 199, 242, 1);
+  margin: 0;
+  font-size: 100%;
 }
