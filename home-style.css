@@ -27,7 +27,7 @@ align-items: center;
 .child {
   display: flex;
   width: 17%;
-  min-width: 100px;
+  min-width: 150px;
   justify-content: center;
   align-items: center;
 }
