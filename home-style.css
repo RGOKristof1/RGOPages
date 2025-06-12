@@ -49,4 +49,9 @@ align-items: center;
   color: rgba(242, 199, 242, 1);
   margin: 0;
   font-size: 4vw;
+  height: 2.4vw;
+}
+.ro {
+  position: relative;
+  right: 0.2vw;
 }
