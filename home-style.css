@@ -36,14 +36,15 @@ margin-right: 5px;
 
 .nav-button {
   color: rgba(242, 199, 242, 1);
-  font-size: 200%;
+  font-size: 100px 200%;
   width: 15%;
+  font-family: Bank;
 }
 .nav-button-left {
-  margin-right: 1%;
+  margin-right: 2%;
   text-align: left;
 }
 .nav-button-right {
-  margin-left: 1%;
+  margin-left: 2%;
   text-align: right;
 }
