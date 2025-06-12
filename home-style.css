@@ -27,12 +27,12 @@ align-items: center;
 .child {
   display: flex;
   width: 17%;
-  min-width: 150px;
+  min-width: 90px;
   justify-content: center;
   align-items: center;
 }
 .child a {
-  font-size: 4vw;
+  font-size: 5.5vw;
 }
 
 .nav-button {
