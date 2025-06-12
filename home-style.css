@@ -29,9 +29,10 @@ display: flex;
 justify-content: space-evenly;
 height: auto;
 align-items: center;
+margin: 1%;
 }
 
 .nav-button {
   color: rgba(242, 199, 242, 0.1);
-  font-size: 200%;
+  font-size: 170%;
 }
