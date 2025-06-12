@@ -25,11 +25,6 @@ body {
   min-width: 100px;
   max-width: 200px;
   margin: 0.5%;
-}
-
-.menu-piece-style {
-  width: 10%;
-  min-width: 100px;
-  max-width: 200px;
-  margin: 0.5%;
+  margin-left: auto;
+  margin-right: auto;
 }
