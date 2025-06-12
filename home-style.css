@@ -52,7 +52,7 @@ align-items: center;
   margin: 0;
   font-size: 4vw;
   height: 2.9vw;
-  
+  transition: color 0.3s;
 }
 .ro {
   position: relative;
