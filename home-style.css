@@ -7,25 +7,31 @@ bg-zsurke = 403F4C
 cool-gray = 9FA0C3
 */
 
+@font-face {
+  font-family: Bank;
+  src: url(home-source/bank-gothic.otf);
+  
+}
 
 body {
   background-color: #403F4C;
   margin: 0;
 }
 
-.margin-zero {
-  margin-top: 0;
-  margin-bottom: 0;
-  margin-left: 0;
-  margin-right: 0;
+.rgopages-logo {
+  min-width: 130px;
+  max-width: 500px;
+  width: 20%;
 }
 
-.rgopages-logo-style {
-  width: 10%;
-  min-width: 100px;
-  max-width: 200px;
-  margin: 0.5%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+.nav-parent {
+display: flex;
+justify-content: space-evenly;
+height: auto;
+align-items: center;
+}
+
+.nav-button {
+  color: rgba(242, 199, 242, 0.1);
+  font-size: 200%;
 }
