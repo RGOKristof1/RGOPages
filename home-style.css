@@ -17,6 +17,7 @@ body {
   background-color: #403F4C;
   margin: 0;
   font-family: bank;
+  user-select: none;
 }
 
 .nav-parent {
@@ -51,7 +52,7 @@ align-items: center;
   margin: 0;
   font-size: 4vw;
   height: 2.9vw;
-  user-select: none;
+  
 }
 .ro {
   position: relative;
