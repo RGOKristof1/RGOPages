@@ -19,22 +19,31 @@ body {
 }
 
 .rgopages-logo {
-  min-width: 130px;
+  min-width: 100px;
   max-width: 500px;
   width: 20%;
 }
 
 .nav-parent {
 display: flex;
-justify-content: space-evenly;
-height: auto;
+justify-content: center;
 align-items: center;
+height: auto;
 margin-top: 10px;
 margin-left: 5px;
 margin-right: 5px;
 }
 
 .nav-button {
-  color: rgba(242, 199, 242, 0.1);
-  font-size: 130%;
+  color: rgba(242, 199, 242, 1);
+  font-size: 200%;
+  width: 15%;
+}
+.nav-button-left {
+  margin-right: 1%;
+  text-align: left;
+}
+.nav-button-right {
+  margin-left: 1%;
+  text-align: right;
 }
