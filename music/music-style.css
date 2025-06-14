@@ -1,0 +1,38 @@
+@font-face {
+  font-family: Bank;
+  src: url("music-source/bank-gothic.otf");
+}
+
+body {
+  background-color: #403F4C;
+  margin: 0;
+  font-family: Bank;
+  user-select: none;
+}
+
+h1 {
+  font-family: Bank;
+  color: #f2c7f2;
+  margin-top: 0;
+  margin-left: 1vw;
+  margin-top: 1vw;
+}
+
+.rgo-title {
+  border-bottom: 0px;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 5px;
+  border-style: solid;
+  border-color: #f2c7f2;
+  border-radius: 5.4px;
+  text-decoration: none;
+  color: #f2c7f2;
+  padding: .1vw;
+}
+
+.audio {
+  border-radius: 1000px;
+  background-color: rgba(0,0,0,1);
+  box-shadow: 10px 10px 30px 1px;
+}
