@@ -2,35 +2,11 @@
   font-family: Bank;
   src: url("js-course-sourse/bank-gothic.otf");
 }
-
-body {
-  background-color: #403F4C;
+*{
   margin: 0;
   font-family: Bank;
 }
-
-.title {
-  font-family: Bank;
-  color: #f2c7f2;
-  margin-top: 0;
-  margin-left: 1vw;
-  margin-top: 1vw;
-  font-size: 4vw;
-  margin-bottom: 5vw;
-  user-select: none;
+body{
+  background-color: #403F4C;
 }
 
-.rgo-title {
-  border-bottom: 0px;
-  border-top: 0px;
-  border-left: 0px;
-  border-right: 0.5vw;
-  border-style: solid;
-  border-color: #f2c7f2;
-  border-radius: 0.5vw;
-  text-decoration: none;
-  color: #f2c7f2;
-  padding: .1vw;
-  user-select: none;
-  margin-right: 0.5vw;
-}
