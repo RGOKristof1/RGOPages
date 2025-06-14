@@ -10,12 +10,14 @@ body {
   user-select: none;
 }
 
-h1 {
+.title {
   font-family: Bank;
   color: #f2c7f2;
   margin-top: 0;
   margin-left: 1vw;
   margin-top: 1vw;
+  font-size: 4vw;
+  margin-bottom: 5vw;
 }
 
 .rgo-title {
@@ -35,4 +37,23 @@ h1 {
   border-radius: 1000px;
   background-color: rgba(0,0,0,1);
   box-shadow: 10px 10px 30px 1px;
+  width: 100%;
+}
+
+.track-container {
+  margin-top: 10vw;
+  width: 70vw;
+}
+
+.track-title {
+  font-family: Bank;
+  color: #f2c7f2;
+  margin: 1vw;
+  font-size: 4vw;
+}
+
+.track {
+  margin: 0;
+  margin-right: 1vw;
+  margin-left: 1vw;
 }
