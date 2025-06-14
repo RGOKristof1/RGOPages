@@ -1,13 +1,12 @@
 @font-face {
   font-family: Bank;
-  src: url("music-source/bank-gothic.otf");
+  src: url("js-course-sourse/bank-gothic.otf");
 }
 
 body {
   background-color: #403F4C;
   margin: 0;
   font-family: Bank;
-  user-select: none;
 }
 
 .title {
@@ -34,29 +33,4 @@ body {
   padding: .1vw;
   user-select: none;
   margin-right: 0.5vw;
-}
-
-.audio {
-  border-radius: 1000px;
-  background-color: rgba(0,0,0,1);
-  box-shadow: 10px 10px 30px 1px;
-  width: 100%;
-}
-
-.track-container {
-  margin-top: 10vw;
-  width: 70vw;
-}
-
-.track-title {
-  font-family: Bank;
-  color: #f2c7f2;
-  margin: 1vw;
-  font-size: 4vw;
-}
-
-.track {
-  margin: 0;
-  margin-right: 1vw;
-  margin-left: 1vw;
 }
