@@ -42,7 +42,7 @@ nav{
 .logo{
   display: flex;
   height: 10vw;
-  min-height: 30px;
+  min-height: 80px;
   padding: 1vw;
 }
 .nav-right{
