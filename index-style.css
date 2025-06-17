@@ -1,59 +1,50 @@
-/* 
-Szin kodok
-kek = #27273e 
-pink = #f2c7f2
-orange = #dc5e00
-bg-zsurke = 403F4C
-cool-gray = 9FA0C3
-*/
-
 @font-face {
   font-family: Bank;
   src: url(index-source/bank-gothic.otf);
 }
 
-body {
-  background-color: #403F4C;
+*{
+  font-family: Bank;
   margin: 0;
-  font-family: bank;
-  user-select: none;
 }
 
-.nav-parent {
-display: flex;
-justify-content: center;
-align-items: center;
+html{
+  --bgc:    #403F4C;
+  --gray:   #9FA0C3;
+  --pink:   #F2C7F2;
+  --orange: #DC5E00;
+  --blue:   #27273E;
+  --purple: #3D2B3C;
 }
-.child {
+
+body{
+  background-color: var(--bgc);
+}
+
+nav{
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr ;
+  background-color: #9FA0C3;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.nav-left{
   display: flex;
-  width: 17%;
-  min-width: 10px;
+  justify-content: flex-start;
+  font-size: 10px;
+}
+.nav-center{
+  display: flex;
   justify-content: center;
-  align-items: center;
 }
-.child a {
-  font-size: 4vw;
+.logo{
+  max-width: 50px;
 }
-
-.nav-button {
-  color: rgba(242, 199, 242, 1);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.rgo-parent {
-  display: flex;
-  flex-direction: column;
+.logo div{
   text-align: center;
 }
-.rgo-parent p {
-  color: rgba(242, 199, 242, 1);
-  margin: 0;
-  font-size: 4vw;
-  height: 2.9vw;
-  transition: color 0.3s;
-}
-.ro {
-  position: relative;
-  right: 0.2vw;
+.nav-right{
+  display: flex;
+  justify-content: flex-end;
+  font-size: 10px; 
 }
