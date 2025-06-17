@@ -36,12 +36,14 @@ nav{
 .nav-center{
   display: flex;
   justify-content: center;
+  background-color: var(--purple);
+  border-radius: 3vw;
 }
 .logo{
-  max-width: 50px;
-}
-.logo div{
-  text-align: center;
+  display: flex;
+  height: 10vw;
+  min-height: 30px;
+  padding: 1vw;
 }
 .nav-right{
   display: flex;
