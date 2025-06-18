@@ -1,6 +1,6 @@
 @font-face {
   font-family: Bank;
-  src: url("music-source/bank-gothic.otf");
+  src: url("/fonts/bank-gothic.otf");
 }
 
 body {

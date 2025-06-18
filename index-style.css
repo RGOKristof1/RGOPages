@@ -1,6 +1,6 @@
 @font-face {
   font-family: Bank;
-  src: url(index-source/bank-gothic.otf);
+  src: url("/fonts/bank-gothic.otf");
 }
 
 *{
@@ -21,27 +21,29 @@ html{
 body{
   background-color: var(--mybgc);
 }
+a{
+  text-decoration: none;
+  cursor: pointer;
+}
 
 nav{
   display: grid;
   grid-template-columns: 2fr 1fr 2fr ;
-  background-color: var(--mygray);
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
 }
 .nav-left{
   display: flex;
   justify-content: flex-start;
+  align-items: center;
+  padding: 1vw;
 }
 .nav-center{
   display: flex;
   justify-content: center;
+  padding: 1vw;
 }
 .logo{
   display: flex;
-  height: 10rem;
-  min-height: 30px;
-  max-height: 150px;
+  height: 5rem;
   padding: 1vw;
   background-color: var(--mypurple);
   border-radius: 2rem;
@@ -49,6 +51,20 @@ nav{
 .nav-right{
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  padding: 1vw;
+}
+.nav-button{
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+  padding: 1vw;
+  background-color: var(--myblue);
+  color: var(--mypink);
+  border-radius: 2rem;
+}
+.nav-login{
+  background-color: var(--myorange);
 }
 
 .hero{
