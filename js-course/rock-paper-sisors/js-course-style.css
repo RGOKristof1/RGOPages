@@ -13,13 +13,14 @@ body {
 .title {
   display: flex;
   justify-content: left;
+  align-items: center;
   font-family: Bank;
   color: #f2c7f2;
   margin-top: 0;
   margin-left: 1vw;
   margin-top: 1vw;
-  font-size: 4vw;
-  margin-bottom: 5vw;
+  font-size: 6vw;
+  margin-bottom: 2vw;
   user-select: none;
   
 }
@@ -37,6 +38,14 @@ body {
   padding: .1vw;
   user-select: none;
   margin-right: 0.5vw;
+}
+
+.lang-button{
+  height: 4vw;
+  font-family: Bank;
+  font-size: 2.5vw;
+  color: #f2c7f2;
+  background-color: #27273E;
 }
 
 .game{
@@ -57,4 +66,16 @@ body {
 
 hr{
   width: 50vw;
+}
+
+.score-board{
+  display: flex;
+  justify-content: center;
+  margin-top: 3vw;
+  margin-bottom: 3vw;
+  margin: 0;
+}
+
+.score{
+  margin-right: 2vw;
 }
