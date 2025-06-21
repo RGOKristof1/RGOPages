@@ -10,36 +10,6 @@ body {
   user-select: none;
 }
 
-.title {
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  font-family: Bank;
-  color: #f2c7f2;
-  margin-top: 0;
-  margin-left: 1vw;
-  margin-top: 1vw;
-  font-size: 6vw;
-  margin-bottom: 2vw;
-  user-select: none;
-  
-}
-
-.rgo-title {
-  border-bottom: 0px;
-  border-top: 0px;
-  border-left: 0px;
-  border-right: 0.5vw;
-  border-style: solid;
-  border-color: #f2c7f2;
-  border-radius: 0.5vw;
-  text-decoration: none;
-  color: #f2c7f2;
-  padding: .1vw;
-  user-select: none;
-  margin-right: 0.5vw;
-}
-
 .lang-button{
   height: 4vw;
   font-family: Bank;
@@ -64,6 +34,12 @@ body {
   color: #f2c7f2;
 }
 
+.winner {
+  margin: 0;
+  margin-top: 2vw;
+  margin-bottom: 2vw;
+}
+
 hr{
   width: 50vw;
 }
@@ -73,6 +49,11 @@ hr{
   justify-content: center;
   margin-top: 3vw;
   margin-bottom: 3vw;
+  margin: 0;
+  margin-top: 2vw;
+}
+
+.p{
   margin: 0;
 }
 
