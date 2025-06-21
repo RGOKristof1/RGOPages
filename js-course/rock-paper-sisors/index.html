@@ -18,6 +18,7 @@
       document.querySelector('.js-bot-picked').innerHTML = botschoicer
       document.querySelector('.js-you-picked').innerHTML = 'rock'
       document.querySelector('.js-winner').innerHTML = game(botschoicer,'rock')
+      refresh()
     ">Rock</button>
 
     <button class="buttons" onclick="
@@ -25,6 +26,7 @@
       document.querySelector('.js-bot-picked').innerHTML = botschoicep
       document.querySelector('.js-you-picked').innerHTML = 'paper'
       document.querySelector('.js-winner').innerHTML = game(botschoicep,'paper')
+      refresh()
     ">Paper</button>
 
     <button class="buttons" onclick="
@@ -32,6 +34,7 @@
       document.querySelector('.js-bot-picked').innerHTML = botschoices
       document.querySelector('.js-you-picked').innerHTML = 'scissors'
       document.querySelector('.js-winner').innerHTML = game(botschoices,'scissors')
+      refresh()
     ">Scissors</button>
 
     <div>
@@ -55,11 +58,19 @@
 
       <p class="p">Loses:</p>
       <p class="js-loses score p">0</p>
-      <button class="js-reset reset-button">Reset Score</button>
+      <button class="js-reset reset-button" onclick="
+        wins = 0
+        ties = 0
+        loses = 0
+        refresh()
+      ">Reset Score</button>
     </div>
 
   </div>
   <script>
+    let wins = localStorage.getItem('wins') || 0
+    let ties = localStorage.getItem('ties') || 0
+    let loses = localStorage.getItem('loses') || 0
     function botChoice() {
       let randomNum = Math.random()
       let choise = undefined
@@ -74,26 +85,44 @@
     }
     function game(choice ,playerChoise) {
             if  (choice === 'rock' && playerChoise === 'rock') {
+        ties += 1
         return 'tie';
       } else if (choice === 'rock' && playerChoise === 'paper') {
+        wins += 1
         return 'win';
       } else if (choice === 'rock' && playerChoise === 'scissors') {
+        loses += 1
         return 'lose';
       } else if (choice === 'paper' && playerChoise === 'rock') {
+        loses += 1
         return 'lose';
       } else if (choice === 'paper' && playerChoise === 'paper') {
+        ties += 1
         return 'tie';
       } else if (choice === 'paper' && playerChoise === 'scissors') {
+        wins += 1
         return 'win';
       } else if (choice === 'scissors' && playerChoise === 'rock') {
+        wins += 1
         return 'win';
       } else if (choice === 'scissors' && playerChoise === 'paper') {
+        loses += 1
         return 'lose';
       } else if (choice === 'scissors' && playerChoise === 'scissors') {
+        ties += 1
         return 'tie';
       } else {
         return 8;
       }
+    }
+    function refresh() {
+      document.querySelector('.js-wins').innerHTML = wins
+      document.querySelector('.js-ties').innerHTML = ties
+      document.querySelector('.js-loses').innerHTML = loses
+      
+      localStorage.setItem('wins',wins)
+      localStorage.setItem('ties',ties)
+      localStorage.setItem('loses',loses)
     }
   </script>
 </body>
