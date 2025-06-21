@@ -40,15 +40,23 @@ body {
   margin-bottom: 2vw;
 }
 
+.picked{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  margin-top: 2vw;
+}
+
 hr{
   width: 50vw;
+  color: #DC5E00;
 }
 
 .score-board{
   display: flex;
   justify-content: center;
-  margin-top: 3vw;
-  margin-bottom: 3vw;
+  align-items: center;
   margin: 0;
   margin-top: 2vw;
 }
@@ -59,4 +67,12 @@ hr{
 
 .score{
   margin-right: 2vw;
+}
+
+.reset-button{
+  font-family: Bank;
+  height: 5vw;
+  font-size: 2vw;
+  background-color: #27273E;
+  color: #f2c7f2;
 }
