@@ -1,0 +1,18 @@
+@font-face {
+  font-family: Bank;
+  src: url("/fonts/bank-gothic.otf");
+}
+
+*{
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html{
+  --mybgc:    #403F4C;
+  --mygray:   #9FA0C3;
+  --mypink:   #F2C7F2;
+  --myorange: #DC5E00;
+  --myblue:   #27273E;
+  --mypurple: #3D2B3C;
+}
