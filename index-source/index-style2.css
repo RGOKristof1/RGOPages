@@ -16,3 +16,14 @@ html{
   --myblue:   #27273E;
   --mypurple: #3D2B3C;
 }
+
+body{
+  background-color: var(--mybgc);
+}
+
+nav{
+  display: flex;
+}
+#nav-logo:hover{
+  
+}
