@@ -6,6 +6,7 @@
 *{
   margin: 0;
   box-sizing: border-box;
+  font-family: Bank;
 }
 
 html{
@@ -22,8 +23,59 @@ body{
 }
 
 nav{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: rgba(159, 160, 195, 0);
+  border-radius: 0;
+  transition: background-color , 0.4s;
+}
+nav:hover{
+  background-color:rgba(159, 160, 195, 1);
+  border-radius: 10vw;
+}
+nav a{
+  display: inline-flex;
+}
+#nav-logo{
+  height: 20vw;
+  margin: 1vw;
+  padding: 3vw;
+
+  border-color: transparent;
+  border-style: solid;
+  border-radius: 10vw;
+  border-width: 1vw;
+
+  transition:ackground-color, 0.2s;
+}
+nav:hover #nav-logo{
+  border-color: transparent;
+  background-color: var(--mypurple);
+}
+#nav-logo-button{
+  align-items: center;
   display: flex;
 }
-#nav-logo:hover{
-  
+#nav-button{
+  width: 35vw;
+  font-size: 7vw;
+  margin: 1vw;
+  padding: 3vw;
+
+  border-color: transparent;
+  border-style: solid;
+  border-radius: 10vw;
+  border-width: 1vw;
+  background-color: transparent;
+  color: var(--mypink);
+
+  transition:ackground-color, 0.2s;
+}
+nav:hover #nav-button{
+  border-color: transparent;
+  background-color: var(--myorange);
+}
+#nav-login-button{
+  display: flex;
+  justify-content: right;
 }
