@@ -19,6 +19,9 @@ html{
   --myorange-light: #ff8c35;
   --myblue:   #27273E;
   --mypurple: #3D2B3C;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 body{
@@ -111,4 +114,34 @@ nav:hover #nav-button{
 #nav-login-button{
   display: flex;
   justify-content: right;
+}
+
+#hero{
+  margin-top: 1vw;
+  padding: 5vw;
+  font-size: 3vw;
+  line-height: 10vw;
+  transition:background-color, 0.4s;
+  color: var(--mypink);
+}
+#hero:hover{
+  background-color: var(--myblue);
+  border-radius: 10vw;
+}
+#hero:hover span{
+  color: var(--myorange);
+}
+
+#hero span{
+  color: var(--mybgc);
+  transition:color, 0.4s ;
+}
+
+#first{
+  text-align: right;
+}
+
+#pages{
+  height: 5000px;
+  border-style: solid;
 }
