@@ -7,6 +7,7 @@
   margin: 0;
   box-sizing: border-box;
   font-family: Bank;
+  text-decoration: none;
 }
 
 html{
@@ -14,6 +15,8 @@ html{
   --mygray:   #9FA0C3;
   --mypink:   #F2C7F2;
   --myorange: #DC5E00;
+  --myorange-dark: #773300;
+  --myorange-light: #ff8c35;
   --myblue:   #27273E;
   --mypurple: #3D2B3C;
 }
@@ -21,7 +24,6 @@ html{
 body{
   background-color: var(--mybgc);
 }
-
 nav{
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -36,6 +38,7 @@ nav:hover{
 nav a{
   display: inline-flex;
 }
+
 #nav-logo{
   height: 20vw;
   margin: 1vw;
@@ -44,20 +47,44 @@ nav a{
   border-color: transparent;
   border-style: solid;
   border-radius: 10vw;
-  border-width: 1vw;
+  border-width: 0.5vw;
+  color: var(--mypink);
 
-  transition:ackground-color, 0.2s;
+  transition:border-color, 0.2s;
+}
+.logo{
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+.logo h1{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3.5vw;
+  font-size: 7vw;
 }
 nav:hover #nav-logo{
   border-color: transparent;
+  background-color: var(--myblue);
+}
+#nav-logo-button a:hover #nav-logo{
+  border-color: var(--myorange);
+}
+#nav-logo-button a:active #nav-logo{
   background-color: var(--mypurple);
+  border-width: 1vw;
 }
 #nav-logo-button{
-  align-items: center;
   display: flex;
+  align-items: center;
 }
+
+
 #nav-button{
-  width: 35vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28vw;
   font-size: 7vw;
   margin: 1vw;
   padding: 3vw;
@@ -65,15 +92,21 @@ nav:hover #nav-logo{
   border-color: transparent;
   border-style: solid;
   border-radius: 10vw;
-  border-width: 1vw;
+  border-width: 0.5vw;
   background-color: transparent;
   color: var(--mypink);
 
-  transition:ackground-color, 0.2s;
+  transition:border-color, 0.2s;
 }
 nav:hover #nav-button{
   border-color: transparent;
-  background-color: var(--myorange);
+  background-color: var(--myblue);
+}#nav-login-button a:hover #nav-button{
+  border-color: var(--myorange);
+}
+#nav-login-button a:active #nav-button{
+  background-color: var(--mypurple);
+  border-width: 1vw;
 }
 #nav-login-button{
   display: flex;
