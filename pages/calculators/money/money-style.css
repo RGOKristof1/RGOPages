@@ -1,0 +1,43 @@
+@font-face {
+  font-family: Bank;
+  src: url("/fonts/bank-gothic.otf");
+}
+
+*{
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Bank;
+  text-decoration: none;
+}
+
+html{
+  --mybgc:    #403F4C;
+  --mygray:   #9FA0C3;
+  --mypink:   #F2C7F2;
+  --myorange: #DC5E00;
+  --myorange-dark: #773300;
+  --myorange-light: #ff8c35;
+  --myblue:   #27273E;
+  --mypurple: #3D2B3C;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+body{
+  background-color: var(--mybgc);
+  display: flex;
+  justify-content: center;
+}
+main{
+  text-align: center;
+  font-size: 20vw;
+}
+button{
+  width: clamp(200px, 50vw, 900px);
+  height: clamp(200px, 50vw, 900px);
+  border-radius: clamp(200px, 50vw, 900px);
+  font-size: clamp(50px, 15vw, 230px);
+}
+p{
+  font-size: clamp(50px, 15vw, 230px);
+}
