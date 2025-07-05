@@ -1,0 +1,11 @@
+#love{
+    text-align: center;
+    font-size: 15vw;
+    color: rgb(255, 92, 92);
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(43, 67, 59);
+}
