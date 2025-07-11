@@ -143,14 +143,12 @@ nav:hover #nav-button{
 
 main{
   display: flex;
+  justify-content: center;
   margin-top: 1vw;
   padding: 5vw;
   font-size: 3vw;
   line-height: 10vw;
   transition:background-color, 0.4s;
-  color: var(--mypink);
-}
-main a{
   color: var(--mypink);
 }
 main:hover{
@@ -161,30 +159,13 @@ main:hover .page{
   background-color: var(--myorange);
 }
 
-#pages{ 
+#pages{
+  display: flex;
+  justify-content: center;
   width: 100%;
 }
 
-.page{
-  margin: 1vw;
-  transition:background-color, 0.4s;
-  background-color: var(--myorange-dark);
-  border-radius: 1vw;
-  padding-right: 5vw;
-  padding-left: 5vw;
-}
-main:hover .page:hover{
-  background-color: var(--myorange-light);
-  border-radius: 10vw;
-}
-
-
-.page-info{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.alt-pages{
-  display: flex;
-  justify-content: end;
+#pages embed{
+  width: 100%;
+  border-radius: 5vw;
 }
