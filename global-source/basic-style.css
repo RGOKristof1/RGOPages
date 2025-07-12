@@ -1,9 +1,12 @@
 @font-face {
   font-family: Bank;
-  src: url("/fonts/bank-gothic.otf");
+  src: url("/global-source/fonts/bank-gothic.otf");
 }
 *{
   margin: 0;
-  font-family: Bank;
   text-decoration: none;
+}
+body{
+  font-family: bank;
+  background-color: var(--mybgc);
 }
