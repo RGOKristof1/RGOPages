@@ -1,14 +1,3 @@
-@font-face {
-  font-family: Bank;
-  src: url("/fonts/bank-gothic.otf");
-}
-
-*{
-  margin: 0;
-  font-family: bank;
-  text-decoration: none;
-}
-
 html{
   --mybgc:    #403F4C;
   --mygray:   #9FA0C3;

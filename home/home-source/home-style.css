@@ -153,5 +153,6 @@ main:hover .page{
 
 #pages embed{
   width: 100%;
+  height: 100vw;
   border-radius: 5vw;
 }
