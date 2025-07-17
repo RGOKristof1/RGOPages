@@ -142,17 +142,8 @@ main:hover{
   border-radius: 10vw;
 }
 main:hover .page{
-  background-color: var(--myorange);
+  color: var(--myorange);
 }
-
-#pages{
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-#pages embed{
-  width: 100%;
-  height: 100vw;
-  border-radius: 5vw;
+h1 a{
+  color: var(--mypink);
 }
