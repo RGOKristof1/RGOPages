@@ -12,94 +12,30 @@ html{
   user-select: none;
 }
 
-nav{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  background-color: rgba(159, 160, 195, 0);
-  border-radius: 0;
-  transition: background-color , 0.4s;
-}
-nav:hover{
-  background-color:rgba(159, 160, 195, 1);
-  border-radius: 10vw;
-}
-nav a{
-  display: inline-flex;
-}
-
-#nav-logo{
-  height: 15vw;
-  margin: 1vw;
-  padding: 3vw;
-
-  border-color: transparent;
-  border-style: solid;
-  border-radius: 10vw;
-  border-width: 0.5vw;
-  color: var(--mypink);
-
-  transition:border-color, 0.2s;
+header{
+  display: flex;
+  justify-content: center;
 }
 .logo{
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
+  width: 100vw;
+  padding-bottom: 1vw;
+  justify-content: center;
+  transition: width 0.4s;
 }
 .logo h1{
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 3.5vw;
-  font-size: 7vw;
+  font-size: 8vw;
+  line-height: 4.5vw;
 }
-nav:hover #nav-logo{
-  border-color: transparent;
+.logo:hover{
   background-color: var(--myblue);
-}
-#nav-logo-button a:hover #nav-logo{
-  border-color: var(--myorange);
-}
-#nav-logo-button a:active #nav-logo{
-  background-color: var(--mypurple);
-  border-width: 1vw;
-}
-#nav-logo-button{
-  display: flex;
-  align-items: center;
-}
-
-
-#nav-button{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 28vw;
-  font-size: 7vw;
-  margin: 1vw;
-  padding: 3vw;
-
-  border-color: transparent;
-  border-style: solid;
+  width: 26vw;
   border-radius: 10vw;
-  border-width: 0.5vw;
-  background-color: transparent;
-  color: var(--mypink);
+}
 
-  transition:border-color, 0.2s;
-}
-nav:hover #nav-button{
-  border-color: transparent;
-  background-color: var(--myblue);
-}#nav-login-button a:hover #nav-button{
-  border-color: var(--myorange);
-}
-#nav-login-button a:active #nav-button{
-  background-color: var(--mypurple);
-  border-width: 1vw;
-}
-#nav-login-button{
-  display: flex;
-  justify-content: right;
-}
 
 #hero{
   margin-top: 1vw;
