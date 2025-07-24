@@ -1,0 +1,45 @@
+html{
+  --mybgc:    #403F4C;
+  --mygray:   #9FA0C3;
+  --mypink:   #F2C7F2;
+  --myorange: #DC5E00;
+  --myorange-dark: #773300;
+  --myorange-light: #ff8c35;
+  --myblue:   #27273E;
+  --mypurple: #3D2B3C;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+body{
+  display: grid;
+  justify-content: center;
+}
+h1{
+  color: var(--mypink);
+  font-size: 6vw;
+  margin-top: 3vw;
+  margin-bottom: 3vw;
+}
+main{
+  display: grid;
+  justify-content: center;
+  text-align: center;
+  font-size: 4vw;
+  background-color: var(--myblue);
+  border-radius: 10vw;
+  padding-top: 1vw;
+  padding-bottom: 1vw;
+}
+main a{
+  color: var(--mypink);
+  background-color: var(--mypurple);
+  border-radius: 10vw;
+  margin-top: 1vw;
+  margin-bottom: 1vw;
+  padding: 2vw;
+  transition: background-color 0.4s;
+}
+main a:hover{
+  background-color: var(--myorange);
+}
