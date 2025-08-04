@@ -1,0 +1,56 @@
+html{
+  --mybgc:    #403F4C;
+  --mygray:   #9FA0C3;
+  --mypink:   #F2C7F2;
+  --myorange: #DC5E00;
+  --myorange-dark: #773300;
+  --myorange-light: #ff8c35;
+  --myblue:   #27273E;
+  --mypurple: #3D2B3C;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+body{
+  display: grid;
+  justify-content: center;
+  background-image: url(hearts-bg.png);
+}
+div{
+  display: flex;
+  justify-content: center;
+}
+
+h1 {
+  font-family: "Meow Script", cursive;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 8vw;
+  color: red;
+  text-align: center;
+  background-color: #ffd3d3;
+  border-radius: 5vw;
+  border-color: #27273E;
+  border-width: 1vw;
+  border-style: solid;
+  padding: 1vw;
+  margin: 1vw;
+}
+#norbi{
+  width: 90vw;
+  height: auto;
+  border-radius: 5vw;
+  border-color: #27273E;
+  border-width: 1vw;
+  border-style: solid;
+  margin: 1vw;
+}
+#mindenki{
+  width: 90vw;
+  height: auto;
+  border-radius: 5vw;
+  border-color: #27273E;
+  border-width: 1vw;
+  border-style: solid;
+  margin: 1vw;
+}
