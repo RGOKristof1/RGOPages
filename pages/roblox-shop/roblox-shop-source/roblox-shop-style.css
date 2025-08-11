@@ -40,7 +40,13 @@ a{
   border-color: var(--myorange-light);
 }
 .new{
+  height: auto;
   background: -webkit-linear-gradient( var(--myorange-light), var(--myorange-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.item:hover .new{
+  background: -webkit-linear-gradient( var(--myorange-dark), var(--myorange-dark));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
