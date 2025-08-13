@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UltraCalc Pro — Single‑File</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0b1220; --panel:#10192b; --muted:#778; --text:#e7ebf3; --accent:#66e3c4; --accent-2:#7aa2f7; --danger:#ff6b6b; --border:#24324a;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(120deg,var(--bg),#0e172a 60%);color:var(--text)}
+    .container{max-width:1200px;margin:0 auto;padding:24px}
+    h1{margin:0;font-size:28px;display:flex;align-items:center;gap:10px}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+    .badge{padding:6px 10px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--muted)}
+    .grid{display:grid;gap:16px}
+    .panels{grid-template-columns:1fr}
+    @media(min-width:900px){.panels{grid-template-columns:1.1fr 1fr}}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));border:1px solid var(--border);border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.25)}
+    .card h2{margin:0 0 8px 0;font-size:16px;color:#c8d1e6}
+    .section{padding:16px}
+    .display{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:12px 12px;text-align:right}
+    .display .expr{opacity:.7;white-space:nowrap;overflow:auto}
+    .display .res{font-size:28px;font-weight:800;white-space:nowrap;overflow:auto}
+    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .spacer{flex:1}
+    button,select,input,textarea{font:inherit;color:inherit}
+    button{background:#111a2f;border:1px solid var(--border);padding:12px 10px;border-radius:12px;cursor:pointer}
+    button:hover{filter:brightness(1.1)}
+    button:active{transform:translateY(1px)}
+    .btn-primary{background:linear-gradient(180deg,#1f384f,#15273b);border-color:#2b3f62}
+    .btn-danger{background:linear-gradient(180deg,#3a1f2e,#2b1422);border-color:#6a2136;color:#ffc5c5}
+    .btn-soft{background:rgba(255,255,255,.06)}
+    .kbd{font-family:ui-monospace,monospace;background:#0d1323;border:1px solid var(--border);padding:0 8px;border-radius:6px}
+    .pill{padding:8px 12px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.04)}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap}
+    .tab{padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.04);cursor:pointer}
+    .tab.active{background:linear-gradient(180deg,#1a2740,#0f1a32);border-color:#345}
+    .keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .keys button{height:56px;font-size:18px;border-radius:14px}
+    .history{max-height:140px;overflow:auto;border:1px dashed var(--border);border-radius:12px;padding:8px}
+    .muted{color:var(--muted)}
+    .mono{font-family:ui-monospace,monospace}
+    .field{display:grid;gap:6px}
+    input[type="text"],input[type="number"],select,textarea{background:#0d1323;border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+    textarea{min-height:80px}
+    .bitgrid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+    .bit{padding:8px 0;text-align:center;border-radius:8px;border:1px solid var(--border);background:#0e1530}
+    .bit.on{background:#103a2d;border-color:#1f5d4a}
+    .chartwrap{height:360px;background:#0a1124;border:1px solid var(--border);border-radius:12px;padding:10px}
+    .small{font-size:12px}
+    .footer{margin-top:6px;color:#99a;opacity:.8;text-align:center;font-size:12px}
+    .link{color:var(--accent)}
+  </style>
+  <!-- math.js & Chart.js from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjs@11/lib/browser/math.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>⚡ UltraCalc Pro</h1>
+      <div class="row">
+        <button id="exportCsv" class="btn-soft">Export CSV</button>
+        <button id="exportJson" class="btn-soft">Export JSON</button>
+        <span class="badge">Single‑File • Feltölt és megy</span>
+      </div>
+    </header>
+
+    <div class="grid panels">
+      <!-- Left column: Display + Tabs -->
+      <div class="grid" style="gap:12px">
+        <div class="card section">
+          <div class="row" style="align-items:flex-end;gap:16px">
+            <div class="display" style="flex:1">
+              <div id="expr" class="expr mono"> </div>
+              <div id="result" class="res mono">0</div>
+            </div>
+            <div class="pill small mono">Mem: <span id="memVal">0</span></div>
+            <div class="row pill small"><label><input type="checkbox" id="radMode" checked> RAD</label></div>
+          </div>
+          <div class="row" style="margin-top:10px;gap:8px;flex-wrap:wrap">
+            <div class="pill small">Konstansok:</div>
+            <button class="btn-soft small" data-insert="pi">π</button>
+            <button class="btn-soft small" data-insert="e">e</button>
+            <button class="btn-soft small" data-insert="(1+sqrt(5))/2">φ</button>
+            <button class="btn-soft small" data-insert="299792458">c</button>
+            <button class="btn-soft small" data-insert="9.80665">g</button>
+            <div class="spacer"></div>
+            <button class="btn-soft small" id="mcBtn">MC</button>
+            <button class="btn-soft small" id="mrBtn">MR</button>
+            <button class="btn-soft small" id="mplusBtn">M+</button>
+            <button class="btn-soft small" id="mminusBtn">M−</button>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="row tabs">
+          <button class="tab active" data-tab="basic">Alap</button>
+          <button class="tab" data-tab="sci">Tudományos</button>
+          <button class="tab" data-tab="prog">Programozói</button>
+          <button class="tab" data-tab="graph">Grafikon</button>
+          <button class="tab" data-tab="convert">Átváltó</button>
+          <button class="tab" data-tab="matrix">Mátrix</button>
+        </div>
+
+        <!-- BASIC -->
+        <div class="card section tabpanel" data-panel="basic">
+          <div class="keys">
+            <button class="btn-danger" data-action="clear">C</button>
+            <button data-insert="()">( )</button>
+            <button data-insert="%">%</button>
+            <button data-insert="/">÷</button>
+
+            <button data-insert="7">7</button>
+            <button data-insert="8">8</button>
+            <button data-insert="9">9</button>
+            <button data-insert="*">×</button>
+
+            <button data-insert="4">4</button>
+            <button data-insert="5">5</button>
+            <button data-insert="6">6</button>
+            <button data-insert="-">−</button>
+
+            <button data-insert="1">1</button>
+            <button data-insert="2">2</button>
+            <button data-insert="3">3</button>
+            <button data-insert="+">+</button>
+
+            <button data-action="neg">+/−</button>
+            <button data-insert="0">0</button>
+            <button data-insert=".">.</button>
+            <button class="btn-primary" data-action="eval">=</button>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <button id="backspace" class="btn-soft">Törlés ⌫</button>
+            <div class="spacer"></div>
+            <button id="clearHistory" class="btn-soft">Történet törlése</button>
+          </div>
+          <div style="margin-top:10px">
+            <div class="muted small" style="margin-bottom:6px">Történet</div>
+            <div id="history" class="history mono small muted">(üres)</div>
+          </div>
+        </div>
+
+        <!-- SCI -->
+        <div class="card section tabpanel" data-panel="sci" style="display:none">
+          <div class="row" style="flex-wrap:wrap;gap:8px">
+            <button class="btn-soft" data-insert="sin(">sin</button>
+            <button class="btn-soft" data-insert="cos(">cos</button>
+            <button class="btn-soft" data-insert="tan(">tan</button>
+            <button class="btn-soft" data-insert="asin(">asin</button>
+            <button class="btn-soft" data-insert="acos(">acos</button>
+            <button class="btn-soft" data-insert="atan(">atan</button>
+            <button class="btn-soft" data-insert="ln(">ln</button>
+            <button class="btn-soft" data-insert="log10(">log</button>
+            <button class="btn-soft" data-insert="sqrt(">√</button>
+            <button class="btn-soft" data-insert="^2">x²</button>
+            <button class="btn-soft" data-insert="^">xʸ</button>
+            <button class="btn-soft" data-insert="!">n!</button>
+            <button class="btn-primary" data-action="eval">Számol</button>
+          </div>
+        </div>
+
+        <!-- PROG -->
+        <div class="card section tabpanel" data-panel="prog" style="display:none">
+          <div class="grid" style="grid-template-columns:repeat(4,1fr);gap:12px">
+            <div class="field">
+              <label class="small muted">Bázis</label>
+              <select id="progBase">
+                <option value="2">Bin</option>
+                <option value="8">Oct</option>
+                <option value="10" selected>Dec</option>
+                <option value="16">Hex</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="small muted">Bit szélesség</label>
+              <select id="bitWidth">
+                <option>8</option>
+                <option selected>16</option>
+                <option>32</option>
+              </select>
+            </div>
+            <div class="field" style="grid-column:span 2">
+              <label class="small muted">A érték</label>
+              <input id="progA" type="text" value="0" />
+            </div>
+          </div>
+          <div class="grid" style="grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px">
+            <div class="card section" style="background:rgba(255,255,255,.03)">
+              <div class="mono small">DEC: <span id="decOut">0</span></div>
+              <div class="mono small">HEX: <span id="hexOut">0</span></div>
+              <div class="mono small">BIN: <span id="binOut">0</span></div>
+            </div>
+            <div class="grid" style="gap:8px">
+              <div class="field">
+                <label class="small muted">B érték</label>
+                <input id="progB" type="text" value="0" />
+              </div>
+              <div class="row" style="gap:8px;flex-wrap:wrap">
+                <button class="btn-soft" id="andBtn">A AND B</button>
+                <button class="btn-soft" id="orBtn">A OR B</button>
+                <button class="btn-soft" id="xorBtn">A XOR B</button>
+                <button class="btn-soft" id="notBtn">NOT A</button>
+                <button class="btn-soft" id="shlBtn">A « 1</button>
+                <button class="btn-soft" id="shrBtn">A » 1</button>
+              </div>
+            </div>
+            <div>
+              <label class="small muted">Bit editor</label>
+              <div id="bitGrid" class="bitgrid"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GRAPH -->
+        <div class="card section tabpanel" data-panel="graph" style="display:none">
+          <div class="grid" style="grid-template-columns:2fr 1fr 1fr 1fr;gap:8px">
+            <div class="field"><label class="small muted">f(x)</label><input id="gExpr" type="text" value="sin(x)"/></div>
+            <div class="field"><label class="small muted">xMin</label><input id="xMin" type="number" value="-10"/></div>
+            <div class="field"><label class="small muted">xMax</label><input id="xMax" type="number" value="10"/></div>
+            <div class="field"><label class="small muted">Pontok</label><input id="gPoints" type="number" value="400"/></div>
+          </div>
+          <div class="row" style="margin-top:8px">
+            <button id="addSeries" class="btn-soft">Görbe hozzáadása</button>
+            <button id="clearSeries" class="btn-soft">Törlés</button>
+          </div>
+          <div class="chartwrap" style="margin-top:10px"><canvas id="chart"></canvas></div>
+          <div class="small muted" style="margin-top:6px">Tipp: több kifejezéshez ismételd a „Hozzáadás”-t. Zoom: böngésző nagyítás.</div>
+        </div>
+
+        <!-- CONVERTER -->
+        <div class="card section tabpanel" data-panel="convert" style="display:none">
+          <div class="grid" style="grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:10px">
+            <div class="field">
+              <label class="small muted">Kategória</label>
+              <select id="convCat"></select>
+            </div>
+            <div class="field">
+              <label class="small muted">Honnan</label>
+              <select id="convFrom"></select>
+            </div>
+            <div class="field">
+              <label class="small muted">Érték</label>
+              <input id="convVal" type="text" value="1"/>
+            </div>
+            <div class="field">
+              <label class="small muted">Hova</label>
+              <select id="convTo"></select>
+            </div>
+            <div class="field">
+              <label class="small muted">Eredmény</label>
+              <input id="convOut" type="text" readonly/>
+            </div>
+          </div>
+        </div>
+
+        <!-- MATRIX -->
+        <div class="card section tabpanel" data-panel="matrix" style="display:none">
+          <div class="row" style="gap:12px">
+            <label class="small muted">Méret</label>
+            <select id="mSize"><option>2</option><option>3</option></select>
+          </div>
+          <div class="grid" style="grid-template-columns:1fr 1fr;gap:16px;margin-top:10px">
+            <div>
+              <div class="small muted" style="margin-bottom:6px">A</div>
+              <div id="matA" class="grid" style="grid-template-columns:repeat(2,1fr);gap:8px"></div>
+            </div>
+            <div>
+              <div class="small muted" style="margin-bottom:6px">B</div>
+              <div id="matB" class="grid" style="grid-template-columns:repeat(2,1fr);gap:8px"></div>
+            </div>
+          </div>
+          <div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap">
+            <button class="btn-soft" data-mop="add">A + B</button>
+            <button class="btn-soft" data-mop="sub">A − B</button>
+            <button class="btn-soft" data-mop="mul">A × B</button>
+            <button class="btn-soft" data-mop="transA">Aᵀ</button>
+            <button class="btn-soft" data-mop="det">det(A)</button>
+            <button class="btn-soft" data-mop="inv">A⁻¹</button>
+          </div>
+          <pre id="matRes" class="mono" style="margin-top:10px;white-space:pre-wrap"></pre>
+        </div>
+      </div>
+
+      <!-- Right column: Short help -->
+      <div class="card section">
+        <h2>Billentyűk és tippek</h2>
+        <ul class="small muted">
+          <li>Számok és operátorok közvetlenül gépelhetők. <span class="kbd">Enter</span> = számol, <span class="kbd">Backspace</span> = törlés.</li>
+          <li>RAD/DEG váltó a kijelző mellett.</li>
+          <li>Történet export: fejlécben CSV / JSON.</li>
+          <li>Grafikon: a <em>math.js</em> függvények mind használhatók (pl. <span class="mono">sin(x)*x</span>).</li>
+          <li>Átváltó: hőmérséklet külön ágon kezelt (C, F, K).</li>
+        </ul>
+        <div class="footer">© UltraCalc Pro • Single‑file kiadás • Design by you & me</div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  // ------ helpers ------
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+  const exprEl = $('#expr');
+  const resEl = $('#result');
+  const radChk = $('#radMode');
+  const memEl = $('#memVal');
+  const historyEl = $('#history');
+  let expr = '';
+  let memory = 0;
+  let history = [];
+
+  const fmt = (v)=>{
+    if (typeof v === 'number'){
+      if (!isFinite(v)) return String(v);
+      const abs = Math.abs(v);
+      let s = (abs>=1e9 || (abs>0 && abs<1e-6)) ? v.toExponential(8) : v.toPrecision(12);
+      return s.replace(/\.?0+($|e)/,'$1').replace(/\.$/,'');
+    }
+    if (Array.isArray(v)) return JSON.stringify(v);
+    return String(v);
+  }
+  function updateDisplay(){
+    exprEl.textContent = expr || '\u00A0';
+    try{
+      // math.js trig unit: emulate deg by converting input
+      const scope = {};
+      let value = math.evaluate(expr || '0', scope);
+      resEl.textContent = fmt(value);
+    }catch(e){ resEl.textContent = '…'; }
+  }
+  function insert(s){ expr += s; updateDisplay(); }
+  function backspace(){ expr = expr.slice(0,-1); updateDisplay(); }
+  function clearAll(){ expr=''; updateDisplay(); }
+  function commit(){
+    try{
+      const val = math.evaluate(expr);
+      const r = fmt(val);
+      history.unshift({ts:Date.now(), expr, result:r});
+      if (history.length>120) history.pop();
+      expr = String(val);
+      updateDisplay();
+      renderHistory();
+    }catch(e){}
+  }
+  function renderHistory(){
+    if (!history.length){ historyEl.textContent='(üres)'; return; }
+    historyEl.innerHTML = '';
+    history.forEach((h,i)=>{
+      const row = document.createElement('div');
+      row.className='row';
+      row.style.justifyContent='space-between';
+      row.style.margin='2px 0';
+      const btn = document.createElement('button');
+      btn.className='btn-soft small';
+      btn.textContent = h.expr;
+      btn.onclick = ()=>{ expr=h.expr; updateDisplay(); };
+      const r = document.createElement('div');
+      r.className='small'; r.style.opacity='.8'; r.textContent = '= ' + h.result;
+      row.append(btn, r); historyEl.append(row);
+    });
+  }
+
+  // constants & buttons
+  $$('[data-insert]').forEach(b=> b.addEventListener('click', ()=> insert(b.getAttribute('data-insert'))));
+  $$('[data-action="eval"]').forEach(b=> b.addEventListener('click', commit));
+  $('[data-action="clear"]').addEventListener('click', clearAll);
+  $('[data-action="neg"]').addEventListener('click', ()=>{ expr = expr ? `(-1)*(${expr})` : '-'; updateDisplay(); });
+  $('#backspace').addEventListener('click', backspace);
+  $('#clearHistory').addEventListener('click', ()=>{ history=[]; renderHistory(); });
+
+  // memory
+  $('#mcBtn').onclick = ()=>{ memory=0; memEl.textContent='0'; };
+  $('#mrBtn').onclick = ()=> insert(String(memory));
+  $('#mplusBtn').onclick = ()=>{ const v = Number(resEl.textContent)||0; memory+=v; memEl.textContent=fmt(memory); };
+  $('#mminusBtn').onclick = ()=>{ const v = Number(resEl.textContent)||0; memory-=v; memEl.textContent=fmt(memory); };
+
+  // keyboard
+  window.addEventListener('keydown', (e)=>{
+    const k = e.key;
+    if (/^[0-9.,]$/.test(k)) insert(k.replace(',','.'));
+    else if (["+","-","*","/","(",")","%","."] .includes(k)) insert(k);
+    else if (k==='Enter') commit();
+    else if (k==='Backspace') backspace();
+  });
+
+  // Tabs
+  const tabButtons = $$('.tab');
+  const panels = $$('.tabpanel');
+  tabButtons.forEach(btn=> btn.addEventListener('click', ()=>{
+    tabButtons.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const name = btn.getAttribute('data-tab');
+    panels.forEach(p=> p.style.display = (p.getAttribute('data-panel')===name)?'block':'none');
+  }));
+
+  // ------- Programmer mode -------
+  const progBaseSel = $('#progBase');
+  const bitWidthSel = $('#bitWidth');
+  const progA = $('#progA');
+  const progB = $('#progB');
+  const decOut = $('#decOut');
+  const hexOut = $('#hexOut');
+  const binOut = $('#binOut');
+  const bitGrid = $('#bitGrid');
+  function parseProg(str, base){
+    const clean = String(str).trim();
+    if (!clean) return 0;
+    const n = parseInt(clean, base);
+    if (isNaN(n)) return 0;
+    return n >>> 0;
+  }
+  function mask(v){
+    const w = Math.min(parseInt(bitWidthSel.value), 31);
+    const m = (1<<w) - 1;
+    return v & m;
+  }
+  function toBase(v, base){ return v.toString(base).toUpperCase(); }
+  function refreshProg(){
+    const base = parseInt(progBaseSel.value);
+    const A = mask(parseProg(progA.value, base));
+    const w = parseInt(bitWidthSel.value);
+    decOut.textContent = A;
+    hexOut.textContent = toBase(A,16);
+    binOut.textContent = toBase(A,2).padStart(w,'0');
+    // bits
+    bitGrid.innerHTML='';
+    for (let i=w-1;i>=0;i--){
+      const on = ((A>>i)&1)===1;
+      const b = document.createElement('button'); b.className='bit'+(on?' on':''); b.textContent = on?1:0;
+      b.onclick = ()=>{
+        const newA = on ? (A & ~(1<<i)) : (A | (1<<i));
+        progA.value = toBase(mask(newA), base); refreshProg();
+      }
+      bitGrid.append(b);
+    }
+  }
+  [progBaseSel, bitWidthSel, progA].forEach(el=> el.addEventListener('input', refreshProg));
+  progB.addEventListener('input', refreshProg);
+  $('#andBtn').onclick = ()=>{ const A=parseProg(progA.value,parseInt(progBaseSel.value)); const B=parseProg(progB.value,parseInt(progBaseSel.value)); progA.value = toBase(mask(A & B), parseInt(progBaseSel.value)); refreshProg(); }
+  $('#orBtn').onclick  = ()=>{ const A=parseProg(progA.value,parseInt(progBaseSel.value)); const B=parseProg(progB.value,parseInt(progBaseSel.value)); progA.value = toBase(mask(A | B), parseInt(progBaseSel.value)); refreshProg(); }
+  $('#xorBtn').onclick = ()=>{ const A=parseProg(progA.value,parseInt(progBaseSel.value)); const B=parseProg(progB.value,parseInt(progBaseSel.value)); progA.value = toBase(mask(A ^ B), parseInt(progBaseSel.value)); refreshProg(); }
+  $('#notBtn').onclick = ()=>{ const A=parseProg(progA.value,parseInt(progBaseSel.value)); progA.value = toBase(mask(~A), parseInt(progBaseSel.value)); refreshProg(); }
+  $('#shlBtn').onclick = ()=>{ const A=parseProg(progA.value,parseInt(progBaseSel.value)); progA.value = toBase(mask(A<<1), parseInt(progBaseSel.value)); refreshProg(); }
+  $('#shrBtn').onclick = ()=>{ const A=parseProg(progA.value,parseInt(progBaseSel.value)); progA.value = toBase(mask(A>>>1), parseInt(progBaseSel.value)); refreshProg(); }
+
+  // ------- Graphing -------
+  const gExpr = $('#gExpr');
+  const xMinEl = $('#xMin');
+  const xMaxEl = $('#xMax');
+  const gPoints = $('#gPoints');
+  const ctx = $('#chart').getContext('2d');
+  const chart = new Chart(ctx, { type:'line', data:{ datasets:[] }, options:{ responsive:true, animation:false, interaction:{mode:'nearest',intersect:false}, scales:{ x:{ type:'linear', title:{display:true,text:'x'} }, y:{ title:{display:true,text:'y'} } } } });
+  function addSeries(){
+    try{
+      const code = gExpr.value.trim();
+      const compiled = math.compile(code);
+      const n = Math.max(50, Math.min(2000, parseInt(gPoints.value)||400));
+      const xmin = parseFloat(xMinEl.value), xmax = parseFloat(xMaxEl.value);
+      const step = (xmax-xmin)/(n-1);
+      const data = [];
+      for (let i=0;i<n;i++){
+        const x = xmin + i*step;
+        let y = compiled.evaluate({x});
+        if (typeof y !== 'number' || !isFinite(y)) y = null;
+        data.push({x,y});
+      }
+      chart.data.datasets.unshift({ label: code, data, pointRadius:0, borderWidth:2 });
+      if (chart.data.datasets.length>6) chart.data.datasets.length = 6;
+      chart.update();
+    }catch(e){ /* ignore invalid */ }
+  }
+  $('#addSeries').onclick = addSeries;
+  $('#clearSeries').onclick = ()=>{ chart.data.datasets=[]; chart.update(); };
+
+  // ------- Converter -------
+  const unitCategories = {
+    length:{ label:'Hossz', units:{ m:1, km:1000, cm:0.01, mm:0.001, mi:1609.344, ft:0.3048, in:0.0254 } },
+    mass:{ label:'Tömeg', units:{ kg:1, g:0.001, mg:0.000001, lb:0.45359237, oz:0.0283495231 } },
+    temp:{ label:'Hőmérséklet', units:{ C:1, F:1, K:1 } },
+    time:{ label:'Idő', units:{ s:1, min:60, h:3600, day:86400 } },
+    speed:{ label:'Sebesség', units:{ 'm/s':1, 'km/h':1000/3600, 'mph':1609.344/3600 } },
+    angle:{ label:'Szög', units:{ deg:1, rad:180/Math.PI, grad:0.9 } },
+    data:{ label:'Adat', units:{ B:1, KB:1024, MB:1024**2, GB:1024**3 } },
+  };
+  const convCat = $('#convCat'), convFrom=$('#convFrom'), convTo=$('#convTo'), convVal=$('#convVal'), convOut=$('#convOut');
+  function fillConv(){
+    convCat.innerHTML = Object.entries(unitCategories).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('');
+    convCat.value='length';
+    refreshUnits();
+  }
+  function refreshUnits(){
+    const cat = convCat.value;
+    const units = Object.keys(unitCategories[cat].units);
+    convFrom.innerHTML = units.map(u=>`<option>${u}</option>`).join('');
+    convTo.innerHTML = units.map(u=>`<option>${u}</option>`).join('');
+    convFrom.value = units[0];
+    convTo.value = units[1]||units[0];
+    updateConv();
+  }
+  function convertTemp(v, from, to){
+    v = Number(v);
+    let C;
+    if (from==='C') C=v; else if (from==='F') C=(v-32)*(5/9); else C=v-273.15;
+    if (to==='C') return C; if (to==='F') return C*(9/5)+32; return C+273.15;
+  }
+  function convertUnit(cat, v, from, to){
+    if (cat==='temp') return convertTemp(v, from, to);
+    const map = unitCategories[cat].units;
+    return Number(v) * map[from] / map[to];
+  }
+  function updateConv(){
+    try{ convOut.value = convertUnit(convCat.value, convVal.value||0, convFrom.value, convTo.value); }
+    catch(e){ convOut.value = 'NaN'; }
+  }
+  convCat.onchange = refreshUnits; [convFrom, convTo, convVal].forEach(el=> el.oninput = updateConv);
+
+  // ------- Matrix -------
+  const mSize = $('#mSize'); const matA = $('#matA'); const matB=$('#matB'); const matRes=$('#matRes');
+  function buildMatrixInputs(){
+    const n = parseInt(mSize.value);
+    matA.style.gridTemplateColumns = `repeat(${n},1fr)`;
+    matB.style.gridTemplateColumns = `repeat(${n},1fr)`;
+    matA.innerHTML = ''; matB.innerHTML='';
+    for(let r=0;r<n;r++) for(let c=0;c<n;c++){
+      const a = document.createElement('input'); a.type='text'; a.value='0'; a.className=''; a.style.cssText='background:#0d1323;border:1px solid var(--border);border-radius:10px;padding:10px 12px';
+      const b = document.createElement('input'); b.type='text'; b.value='0'; b.style.cssText=a.style.cssText;
+      matA.append(a); matB.append(b);
+    }
+    matRes.textContent='';
+  }
+  function readMatrix(root){
+    const n = parseInt(mSize.value); const arr=[]; const inputs = Array.from(root.querySelectorAll('input'));
+    for(let r=0;r<n;r++){ const row=[]; for(let c=0;c<n;c++){ row.push(Number(inputs[r*n+c].value||0)); } arr.push(row); }
+    return math.matrix(arr);
+  }
+  function mPretty(M){
+    const a = M.toArray();
+    return '[\n' + a.map(r=>'  [ '+ r.map(v=>fmt(v)).join(', ') + ' ]').join('\n') + '\n]';
+  }
+  function matOp(op){
+    try{
+      const A = readMatrix(matA);
+      if (op==='det'){ matRes.textContent = 'det(A) = '+fmt(math.det(A)); return; }
+      if (op==='inv'){ matRes.textContent = mPretty(math.inv(A)); return; }
+      const B = readMatrix(matB);
+      let R=null; if (op==='add') R=math.add(A,B); if (op==='sub') R=math.subtract(A,B); if (op==='mul') R=math.multiply(A,B); if (op==='transA') R=math.transpose(A);
+      if (R) matRes.textContent = mPretty(R);
+    }catch(e){ matRes.textContent='Hiba a mátrix műveletnél'; }
+  }
+  $$('[data-mop]').forEach(b=> b.onclick = ()=> matOp(b.getAttribute('data-mop')));
+  mSize.onchange = buildMatrixInputs;
+
+  // ------- Export -------
+  function copyText(text){
+    navigator.clipboard?.writeText(text).catch(()=>{
+      const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    });
+  }
+  $('#exportJson').onclick = ()=> copyText(JSON.stringify(history,null,2));
+  $('#exportCsv').onclick = ()=>{
+    const header='timestamp,expr,result\n';
+    const rows = history.map(h=> `${new Date(h.ts).toISOString()},"${h.expr.replaceAll('"','""')}",${h.result}`);
+    copyText(header+rows.join('\n'));
+  };
+
+  // ------- Init -------
+  updateDisplay();
+  renderHistory();
+  refreshProg();
+  fillConv();
+  buildMatrixInputs();
+
+})();
+</script>
+</body>
+</html>

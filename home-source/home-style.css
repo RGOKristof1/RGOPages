@@ -12,74 +12,53 @@ html{
   user-select: none;
 }
 
-header{
-  display: flex;
-  justify-content: center;
-}
-.logo{
+body{
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
-  width: 100vw;
-  padding-bottom: 1vw;
-  justify-content: center;
-  transition: width 0.4s;
+  margin-left: 1vw;
+  margin-right: 1vw;
 }
-.logo h1{
+.item{
+  margin-top: 2vw;
   display: flex;
   justify-content: center;
-  font-size: 8vw;
-  line-height: 4.5vw;
 }
-.logo:hover{
+a img{
+  width: min(60vw, 500px);
+  padding: 1vw;
+  border-radius: 1vw;
+  transition: all 0.3s;
+}
+a:hover img{
   background-color: var(--myblue);
-  width: 26vw;
-  border-radius: 10vw;
+  border-radius: 5vw;
 }
 
-
-#hero{
-  margin-top: 1vw;
-  padding: 5vw;
-  font-size: 3vw;
-  line-height: 10vw;
-  transition:background-color, 0.4s;
-  color: var(--mypink);
+.recent-pages{
+  display: grid;
 }
-#hero:hover{
-  background-color: var(--myblue);
-  border-radius: 10vw;
+.recent-pages h1{
+  text-align: center;
+  font-size: min(9vw, 75px);
+  color: var(--myorange-light);
 }
-#hero:hover span{
-  color: var(--myorange);
-}
-
-#hero span{
-  color: var(--mybgc);
-  transition:color, 0.4s ;
-}
-
-#first{
-  text-align: right;
-}
-
-
-main{
+.recent-item{
   display: flex;
   justify-content: center;
-  margin-top: 1vw;
-  padding: 5vw;
-  font-size: 3vw;
-  line-height: 10vw;
-  transition:background-color, 0.4s;
-  color: var(--mypink);
+  font-size: min(11vw, 92px);
 }
-main:hover{
-  background-color: var(--myblue);
-  border-radius: 10vw;
-}
-main:hover .page{
+.recent-item a{
   color: var(--myorange);
+  margin-top: 1vw;
+  margin-bottom: 1vw;
+  padding: 0;
+  border-radius: 10vw;
+  transition: all 0.33s;
 }
-h1 a{
-  color: var(--mypink);
+.recent-item a:hover{
+  color: var(--myorange-light);
+  background-color: var(--myorange-dark);
+  border-radius: 2vw;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 1vw;
 }
