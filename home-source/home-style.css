@@ -67,8 +67,14 @@ header{
   border-radius: 5vw;
 }
 
-embed{
-  height: 100vh;
+
+#pages-embed{
+  display: flex;
+  justify-content: center;
+  height: 45vw;
+}
+#pages-embed embed{
+  width: 80vw;
 }
 
 
