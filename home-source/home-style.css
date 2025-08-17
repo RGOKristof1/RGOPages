@@ -10,70 +10,46 @@
   --mAccent: hsl(from var(--mPrimary) h s calc(l + 30));
   --mText: hsl(from var(--mPrimary) h s calc(l - 10));
   --mBackground: hsl(240, 14%, 70%);
-  --mSecondary: hsl(from var(--mBackground) h s calc(l + 30));
+  --mSecondary: hsl(from var(--mBackground) h s calc(l - 30));
 }
 html{
   background-color: var(--mBackground);
 }
 body{
-  display: grid;
-  margin-left: 1vw;
-  margin-right: 1vw;
+  height: 100vh;
+  background-color: hsl(from var(--mBackground) h s calc(l + 10));
+  margin: 5vw 5vw 0;
+  border-radius: 5vw 5vw 0 0;
 }
-.item{
-  margin-top: 2vw;
+#shadow{
+  background: linear-gradient(0deg,rgba(0, 0, 0, 0.3) 0%, rgba(255, 255, 255, 0) 100%);
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  text-align: center;
+  height: 10vh;
+  width: 100%;
+  z-index: -1;
+}
+header{
   display: flex;
   justify-content: center;
 }
-a img{
-  width: min(60vw, 500px);
-  padding-left: min(5vw, 50px);
-  padding-right: min(5vw, 50px);
-  padding-bottom: min(6vw, 50px);
-  padding-top: min(6vw, 50px);
-  border-radius: min(1vw, 8px);
+#logo{
+  margin-top: 2vw;
+  display: grid;
+  text-align: center;
+  line-height: min(5vw, 100px);
+  font-size: min(10vw, 200px);
+  padding: 1vw 1vw 2vw;
+  border-radius: 2vw;
   transition: all 0.3s;
 }
-a:hover img{
+#logo a{
+  text-decoration: none;
+  color: var(--mPrimary);
+}
+#logo:hover {
   background-color: var(--mSecondary);
-  border-radius: min(30vw, 250px);
-}
-
-.recent-pages{
-  display: grid;
-}
-.recent-pages h1{
-  text-align: center;
-  font-size: min(9vw, 75px);
-  color: var(--mText);
-}
-.recent-item{
-  display: flex;
-  justify-content: center;
-  font-size: min(11vw, 92px);
-}
-.recent-item a{
-  color: hsl(from var(--mText) h s l);
-  margin-top: 1vw;
-  margin-bottom: 1vw;
-  padding: 0;
   border-radius: 10vw;
-  transition: all 0.33s;
-}
-.recent-item a:hover{
-  color: var(--myorange-light);
-  background-color: var(--myorange-dark);
-  border-radius: 2vw;
-  margin-top: 0;
-  margin-bottom: 0;
-  padding: 1vw;
-}
-
-#line{
-  border: 0;
-  border-top: var(--mAccent) min(0.7vw, 10px);
-  border-bottom: var(--mAccent) min(0.7vw, 10px);
-  border-radius: 1vw;
-  border-style: solid;
-  width: min(90vw, 900px);
 }
