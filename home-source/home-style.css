@@ -12,17 +12,68 @@
   --mBackground: hsl(240, 14%, 70%);
   --mSecondary: hsl(from var(--mBackground) h s calc(l - 30));
 }
+
+
 html{
   background-color: var(--mBackground);
+  transition: all 1s;
 }
+html:hover{
+  background-color: hsl(from var(--mBackground) h s calc(l + 5));
+}
+
 body{
   height: 100vh;
   background-color: hsl(from var(--mBackground) h s calc(l + 10));
-  margin: 5vw 5vw 0;
+  margin: min(5vw, 50px) min(5vw, 50px) 0;
+  border-radius: 1vw 1vw 0 0;
+  transition: all 0.5s;
+}
+body:hover{
+  background-color: hsl(from var(--mBackground) h s calc(l + 15));
   border-radius: 5vw 5vw 0 0;
 }
+
+
+header{
+  display: flex;
+  justify-content: center;
+}
+#logo a{
+  text-decoration: none;
+  color: var(--mPrimary);
+}
+/*Activating all*/
+#logo a:active #logo{
+  background-color: #fff;
+}
+
+#logo{
+  display: grid;
+  text-align: center;
+
+  margin: min(5vw, 50px) 0;
+  padding: 1vw 1vw min(2vw, 150px);
+
+  line-height: min(5vw, 100px);
+  font-size: min(10vw, 200px);
+  
+  background-color: hsl(from var(--mSecondary) h s calc(l - 10));
+  border-radius: 1vw;
+  transition: all 0.25s;
+}
+#logo:hover {
+  background-color: var(--mSecondary);
+  border-radius: 5vw;
+}
+
+embed{
+  height: 100vh;
+}
+
+
 #shadow{
-  background: linear-gradient(0deg,rgba(0, 0, 0, 0.3) 0%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(0deg,rgba(0, 0, 0, 0.6) 0%, rgba(255, 255, 255, 0) 100%);
   position: fixed;
   left: 0;
   bottom: 0;
@@ -30,26 +81,4 @@ body{
   height: 10vh;
   width: 100%;
   z-index: -1;
-}
-header{
-  display: flex;
-  justify-content: center;
-}
-#logo{
-  margin-top: 2vw;
-  display: grid;
-  text-align: center;
-  line-height: min(5vw, 100px);
-  font-size: min(10vw, 200px);
-  padding: 1vw 1vw 2vw;
-  border-radius: 2vw;
-  transition: all 0.3s;
-}
-#logo a{
-  text-decoration: none;
-  color: var(--mPrimary);
-}
-#logo:hover {
-  background-color: var(--mSecondary);
-  border-radius: 10vw;
 }
