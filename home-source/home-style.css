@@ -1,17 +1,20 @@
-html{
-  --mybgc:    #403F4C;
-  --mygray:   #9FA0C3;
-  --mypink:   #F2C7F2;
-  --myorange: #DC5E00;
-  --myorange-dark: #773300;
-  --myorange-light: #ff8c35;
-  --myblue:   #27273E;
-  --mypurple: #3D2B3C;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+:root{
+  --mPrimary: hsl(300, 63%, 80%);
+  --mAccent: hsl(from var(--mPrimary) h s calc(l - 30));
+  --mText: hsl(from var(--mPrimary) h s calc(l + 10));
+  --mBackground: hsl(240, 14%, 10%);
+  --mSecondary: hsl(from var(--mBackground) h s calc(l + 30));
 }
-
+.lightmode{
+  --mPrimary: hsl(300, 63%, 20%);
+  --mAccent: hsl(from var(--mPrimary) h s calc(l + 30));
+  --mText: hsl(from var(--mPrimary) h s calc(l - 10));
+  --mBackground: hsl(240, 14%, 70%);
+  --mSecondary: hsl(from var(--mBackground) h s calc(l + 30));
+}
+html{
+  background-color: var(--mBackground);
+}
 body{
   display: grid;
   margin-left: 1vw;
@@ -24,13 +27,16 @@ body{
 }
 a img{
   width: min(60vw, 500px);
-  padding: 1vw;
-  border-radius: 1vw;
+  padding-left: min(5vw, 50px);
+  padding-right: min(5vw, 50px);
+  padding-bottom: min(6vw, 50px);
+  padding-top: min(6vw, 50px);
+  border-radius: min(1vw, 8px);
   transition: all 0.3s;
 }
 a:hover img{
-  background-color: var(--myblue);
-  border-radius: 5vw;
+  background-color: var(--mSecondary);
+  border-radius: min(30vw, 250px);
 }
 
 .recent-pages{
@@ -39,7 +45,7 @@ a:hover img{
 .recent-pages h1{
   text-align: center;
   font-size: min(9vw, 75px);
-  color: var(--myorange-light);
+  color: var(--mText);
 }
 .recent-item{
   display: flex;
@@ -47,7 +53,7 @@ a:hover img{
   font-size: min(11vw, 92px);
 }
 .recent-item a{
-  color: var(--myorange);
+  color: hsl(from var(--mText) h s l);
   margin-top: 1vw;
   margin-bottom: 1vw;
   padding: 0;
@@ -61,4 +67,13 @@ a:hover img{
   margin-top: 0;
   margin-bottom: 0;
   padding: 1vw;
+}
+
+#line{
+  border: 0;
+  border-top: var(--mAccent) min(0.7vw, 10px);
+  border-bottom: var(--mAccent) min(0.7vw, 10px);
+  border-radius: 1vw;
+  border-style: solid;
+  width: min(90vw, 900px);
 }

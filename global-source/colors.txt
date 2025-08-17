@@ -1,0 +1,14 @@
+:root{
+  --mPrimary: hsl(300, 63%, 80);
+  --mAccent: hsl(from var(--mPrimary) h s calc(l - 30));
+  --mText: hsl(from var(--mPrimary) h s calc(l + 10));
+  --mBackground: hsl(240, 14%, 10);
+  --mSecondary: hsl(from var(--mBackground) h s calc(l + 30));
+}
+.lightmode{
+  --mPrimary: hsl(300, 63%, 20);
+  --mAccent: hsl(from var(--mPrimary) h s calc(l + 30));
+  --mText: hsl(from var(--mPrimary) h s calc(l - 10));
+  --mBackground: hsl(240, 14%, 70);
+  --mSecondary: hsl(from var(--mBackground) h s calc(l + 30));
+}
