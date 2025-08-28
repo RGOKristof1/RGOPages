@@ -12,28 +12,9 @@
   --mBackground: hsl(240, 14%, 70%);
   --mSecondary: hsl(from var(--mBackground) h s calc(l - 30));
 }
-
-
-html{
-  background-color: var(--mBackground);
-  transition: all 1s;
-}
-html:hover{
-  background-color: hsl(from var(--mBackground) h s calc(l + 5));
-}
-
 body{
-  height: 100vh;
-  background-color: hsl(from var(--mBackground) h s calc(l + 10));
-  margin: min(5vw, 50px) min(5vw, 50px) 0;
-  border-radius: 1vw 1vw 0 0;
-  transition: all 0.5s;
+  background-color: var(--mBackground);
 }
-body:hover{
-  background-color: hsl(from var(--mBackground) h s calc(l + 15));
-  border-radius: 5vw 5vw 0 0;
-}
-
 
 header{
   display: flex;
@@ -71,20 +52,10 @@ header{
 #pages-embed{
   display: flex;
   justify-content: center;
-  height: 45vw;
+  height: max(70vw,300px);
 }
-#pages-embed embed{
-  width: 80vw;
+#pages-embed iframe{
+  height: 100%;
+  width: 100vw;
 }
 
-
-#shadow{
-  background: linear-gradient(0deg,rgba(0, 0, 0, 0.6) 0%, rgba(255, 255, 255, 0) 100%);
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  text-align: center;
-  height: 10vh;
-  width: 100%;
-  z-index: -1;
-}
