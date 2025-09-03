@@ -14,6 +14,7 @@
 }
 body{
   background-color: var(--mBackground);
+  margin: 0 clamp(100px,10vw,10px);
 }
 
 header{
