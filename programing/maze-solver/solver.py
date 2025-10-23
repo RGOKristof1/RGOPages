@@ -1,31 +1,22 @@
 from turtle import Turtle
-import time
-
-
-file = open(".\\programing\\maze-solver\\map.txt")
-
-lines = file.readlines()
-
-strippedLines = []
-
-for i in range(len(lines)):
-    strippedLines.append(lines[i].strip())
-
-
-gridx = int((strippedLines[0].split("x"))[0])
-gridy = int((strippedLines[0].split('x'))[1])
-gridSize = {
-    "x" : gridx,
-    "y" : gridy,
-}
-
-for i2 in range(gridSize["y"]):
-    for i2 in range(gridSize["x"]):
-        print(" · ",end="")
-    print()
 
 t = Turtle()
-t.screen.title('Object-oriented turtle demo')
+t.screen.colormode(255)
 t.screen.bgcolor("black")
-t.color("orange")
-t.screen.mainloop()
+t.color("white")
+t.pencolor(136, 0, 21)
+u = 100
+
+file = open(".\\programing\\maze-solver\\map.txt")
+unstrippedFileLines = file.readlines()
+fileLines = []
+for i in range(len(unstrippedFileLines)):
+    fileLines.append(unstrippedFileLines[i].strip())
+
+for i in range(len(fileLines)):
+    if i == 0:
+        gridx = fileLines[i].split("x")[0]
+        gridy = fileLines[i].split("x")[1]
+    elif fileLines[i] == "r":
+        if fileLines[i+1] == "c":
+            makingColoumn = fileLines[i+1].split()
