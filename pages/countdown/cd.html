@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Wiza Dick Reveal</title> <!-- <-- ITT VÁLTOZTASD MEG A CÍMET -->
+  <style>
+    body{
+      margin:0;
+      background:#0fbf62;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      height:100vh;
+      font-family:Arial;
+      color:#003120;
+    }
+    h1{font-size:2.5rem;margin-bottom:1rem}
+    #time{font-size:5rem;font-weight:bold}
+  </style>
+</head>
+<body>
+
+  <h1>Wiza Dick Reveal</h1> <!-- <-- ITT IS ÁTÍRHATOD A CÍMET -->
+  <div id="time">01:00:00</div>
+
+  <script>
+    let remaining = 60 * 60; // 1 óra FIXEN
+
+    function format(sec){
+      const h = String(Math.floor(sec/3600)).padStart(2,'0');
+      const m = String(Math.floor((sec%3600)/60)).padStart(2,'0');
+      const s = String(sec%60).padStart(2,'0');
+      return `${h}:${m}:${s}`;
+    }
+
+    const t = document.getElementById('time');
+    t.textContent = format(remaining);
+
+    setInterval(()=>{
+      if(remaining>0){
+        remaining--;
+        t.textContent = format(remaining);
+      }
+    },1000);
+  </script>
+
+</body>
+</html>
