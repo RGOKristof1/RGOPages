@@ -49,14 +49,68 @@ header{
   border-radius: 5vw;
 }
 
+html{
+  background-color: var(--mBackground);
+}
 
-#pages-embed{
+body{
+  margin: 2vw 0;
+}
+
+header{
   display: flex;
   justify-content: center;
-  height: max(70vw,300px);
+  text-align: center;
 }
-#pages-embed iframe{
-  height: 100%;
-  width: 100vw;
+h1{
+  color: var(--mPrimary);
+  background-color: var(--mSecondary);
+  font-size: 5vw;
+  padding: 1vw;
+  border-radius: 1vw;
 }
 
+span a{
+  color: var(--mAccent);
+  text-decoration: none;
+  transition: all 0.15s;
+}
+span a:hover{
+  color: var(--mPrimary);
+}
+
+main{
+  display: grid;
+  justify-content: center;
+}
+
+.item{
+  margin-top: 3vw;
+  border: solid var(--mAccent);
+  border-width: 0 0 0 1vw;
+  border-radius: 0.5vw;
+}
+.item a{
+  color: var(--mText);
+  text-decoration: none;
+  background-color: var(--mSecondary);
+  font-size: 5vw;
+  margin: 1vw;
+  padding: 0.5vw;
+  border-radius: 1vw;
+}
+.child a{
+  background-color: hsl(from var(--mSecondary) h s calc(l + 15));
+}
+
+.family{
+  border: solid var(--mAccent);
+  border-width: 0 0 0 1vw;
+}
+.parent{
+  margin: 0;
+  border: none;
+}
+.child{
+  border-radius: 0;
+}
