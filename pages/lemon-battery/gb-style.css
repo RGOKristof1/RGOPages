@@ -52,6 +52,13 @@ body{
         margin:0 max(700px,30vw);
     }
 }
+@media (orientation: landscape) and (max-width: 1000px) {
+    body{
+        grid-template-columns: 4fr 7fr;
+        grid-template-areas: 'aside main';
+        margin:0 2vw;
+    }
+}
 
 
 
