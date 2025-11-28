@@ -4,10 +4,9 @@
   --mText: hsl(from var(--mPrimary) h s calc(l + 10));
   --mBackground: hsl(240, 14%, 10%);
   --mSecondary: hsl(from var(--mBackground) h s calc(l + 30));
+  color: var(--mText);
 }
 body{
-    height: 1000px;
-
     background-color: var(--mBackground);
     display: grid;
     border: white 5px solid;
@@ -16,7 +15,6 @@ body{
     body{
         grid-template-rows: 1fr 1fr;
         grid-template-areas: 'main' 'aside';
-
         margin:0 2vw;
     }
 }
@@ -64,22 +62,22 @@ body{
 
 aside{
     grid-area: aside;
-    
-    justify-items: center;
+    border: gray 5px solid;
 }
-aside div{
-    color: white;
-    background-color: rgba(0,0,0,0.25);
-    border: solid gray 2px;
-    margin: 10px;
-    text-align: center;
-    justify-content: center;
-    align-content: center;
-    height: min(400px,70vw);
-    width: min(300px,50vw);
+img{
+    background-color: #fff;
 }
 
 main{
     grid-area: main;
     border: gray 5px solid;
+}
+
+footer{
+    text-align: end;
+    position: sticky;
+    bottom: 0;
+    justify-self: center;
+    align-self: end;
+    grid-area: main;
 }
