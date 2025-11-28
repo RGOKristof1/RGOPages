@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>SoundCloud átirányítás</title>
+    <title>Wizalevi</title>
     <meta http-equiv="refresh" content="3;url=https://soundcloud.com/wiza-levi">
     <link rel="stylesheet" href="/global-source/global-style.css">
     <link rel="stylesheet" href="main-stlye.css">
@@ -11,14 +11,57 @@
 </head>
 
 <body>
-    <main class="container">
-        <img src="https://a-v2.sndcdn.com/assets/images/sc-icons/favicon-2cadd14b.ico" alt="SoundCloud" class="logo">
-        <h1>Átirányítás a SoundCloud profilodra</h1>
-        <p>Ha nem történik meg automatikusan, kattints az alábbi gombra.</p>
-        <a class="btn" href="https://soundcloud.com/wiza-levi" target="_blank" rel="noopener noreferrer">Open
-            SoundCloud</a>
-        <p class="small">Várakozás: 3 másodperc...</p>
-    </main>
+
+<p>qq</p>
+<input id="a1" type="text">
+<button onclick="check1()">OK</button>
+
+<br><br>
+
+<p>qq2?</p>
+<input id="a2" type="text" disabled>
+<button id="b2" onclick="check2()" disabled>OK</button>
+
+<br><br>
+
+<p>qq3</p>
+<input id="a3" type="text" disabled>
+<button id="b3" onclick="check3()" disabled>OK</button>
+
+<script>
+// 1. kérdés
+function check1(){
+  if(
+    document.getElementById("a1").value.toLowerCase().trim() === "qq"){
+    document.getElementById("a2").disabled = false;
+    document.getElementById("b2").disabled = false;
+  } else {
+    alert("Helytelen!");
+  }
+}
+
+// 2. kérdés
+function check2(){
+  if(
+    document.getElementById("a2").value.trim() === "qq2"){
+    document.getElementById("a3").disabled = false;
+    document.getElementById("b3").disabled = false;
+  } else {
+    alert("Helytelen!");
+  }
+}
+
+// 3. kérdés
+function check3(){
+  if(
+    document.getElementById("a3").value.toLowerCase().trim() === "qq3"){
+    alert("Minden helyes!");
+  } else {
+    alert("Helytelen!");
+  }
+}
+</script>
+
 </body>
 
 </html>
