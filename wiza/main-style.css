@@ -1,0 +1,11 @@
+:root{
+  --mPrimary: hsl(300, 63%, 80%);
+  --mAccent: hsl(from var(--mPrimary) h s calc(l - 30));
+  --mText: hsl(from var(--mPrimary) h s calc(l + 10));
+  --mBackground: hsl(240, 14%, 10%);
+  --mSecondary: hsl(from var(--mBackground) h s calc(l + 30));
+}
+body{
+  background-color: var(--mBackground);
+  margin: 0 clamp(100px,10vw,10px);
+}
