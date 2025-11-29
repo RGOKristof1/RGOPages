@@ -8,87 +8,77 @@
 
 <h2>Secure GitHub Text Saver</h2>
 
-<!-- Token státusz -->
 <p id="tokenStatus"></p>
 <button id="setTokenBtn">Set GitHub Token</button>
 <br><br>
 
-<!-- Szövegmező -->
 <textarea id="textInput" rows="10" cols="50" placeholder="Írd ide a szöveget..."></textarea>
 <br><br>
 
-<!-- Mentés -->
 <button id="saveBtn">Save</button>
 <p id="status"></p>
 
 <script>
-    const username = "RGOKristof1"; // GitHub felhasználóneved
-    const workflowFile = "update-text.yml"; // workflow fájl neve
-    const branch = "main"; // branch
+const username = "RGOKristof1"; // GitHub felhasználó
+const workflowFile = "update-text.yml";
+const branch = "main";
 
-    const tokenStatus = document.getElementById("tokenStatus");
-    const setTokenBtn = document.getElementById("setTokenBtn");
+const tokenStatus = document.getElementById("tokenStatus");
+const setTokenBtn = document.getElementById("setTokenBtn");
 
-    // Token beállítás
-    setTokenBtn.addEventListener("click", () => {
-        const token = prompt("Add meg a GitHub Personal Access Token-t:");
-        if (token && token.trim() !== "") {
-            localStorage.setItem("github_token", token.trim());
-            tokenStatus.textContent = "Token loaded (saved locally).";
-        } else {
-            alert("Token not saved.");
-        }
-    });
-
-    // Státusz frissítése
-    function updateTokenStatus() {
-        const token = localStorage.getItem("github_token");
-        tokenStatus.textContent = token ? "Token loaded (saved locally)." : "No token set!";
+setTokenBtn.addEventListener("click", () => {
+    const token = prompt("Add meg a GitHub Personal Access Token-t:");
+    if (token && token.trim() !== "") {
+        localStorage.setItem("github_token", token.trim());
+        tokenStatus.textContent = "Token loaded (saved locally).";
+    } else {
+        alert("Token not saved.");
     }
-    updateTokenStatus();
+});
 
-    // Save gomb
-    document.getElementById("saveBtn").addEventListener("click", async () => {
-        const text = document.getElementById("textInput").value;
-        const token = localStorage.getItem("github_token");
-        const status = document.getElementById("status");
+function updateTokenStatus() {
+    const token = localStorage.getItem("github_token");
+    tokenStatus.textContent = token ? "Token loaded (saved locally)." : "No token set!";
+}
+updateTokenStatus();
 
-        if (!token) {
-            status.textContent = "Error: No token set!";
-            return;
-        }
+document.getElementById("saveBtn").addEventListener("click", async () => {
+    const text = document.getElementById("textInput").value;
+    const token = localStorage.getItem("github_token");
+    const status = document.getElementById("status");
 
-        status.textContent = "Saving...";
+    if (!token) { status.textContent = "Error: No token set!"; return; }
+    status.textContent = "Saving...";
 
-        try {
-            const response = await fetch(
-                `https://api.github.com/repos/${username}/rgopages.hu/actions/workflows/${workflowFile}/dispatches`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Accept": "application/vnd.github+json",
-                        "Authorization": `token ${token}`
-                    },
-                    body: JSON.stringify({
-                        ref: branch,
-                        inputs: { newtext: text }
-                    })
-                }
-            );
-
-            if (response.ok) {
-                status.textContent = "Saved! Workflow started.";
-                document.getElementById("textInput").value = "";
-            } else {
-                const textResp = await response.text();
-                status.textContent = "Error! Can't start workflow.";
-                console.error(textResp);
+    try {
+        const response = await fetch(
+            `https://api.github.com/repos/${username}/rgopages.hu/actions/workflows/${workflowFile}/dispatches`,
+            {
+                method: "POST",
+                headers: {
+                    "Accept": "application/vnd.github+json",
+                    "Authorization": `token ${token}`
+                },
+                body: JSON.stringify({
+                    ref: branch,
+                    inputs: { newtext: text }
+                })
             }
-        } catch (err) {
-            status.textContent = "Network error!";
-            console.error(err);
+        );
+
+        if (response.ok) {
+            status.textContent = "Saved! Workflow started.";
+            document.getElementById("textInput").value = "";
+        } else {
+            const txt = await response.text();
+            status.textContent = "Error! Can't start workflow.";
+            console.error(txt);
         }
-    });
+    } catch (err) {
+        status.textContent = "Network error!";
+        console.error(err);
+    }
+});
 </script>
 
 </body>
