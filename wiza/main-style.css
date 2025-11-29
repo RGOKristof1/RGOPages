@@ -56,7 +56,7 @@ button, .btn{
   border-color: color-mix(in srgb, var(--mPrimary) 80%, transparent);
 }
 
-.question .btn{
+.btn{
   width: 100%;
   max-width: 400px;
   margin-top: 12px;
