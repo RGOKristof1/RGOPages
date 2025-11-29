@@ -21,6 +21,12 @@ COIN SYSTEM
 
     Start: 5 coins
 
+    COIN QUEST
+
+        After every STEP:
+    
+            Qnlock extra coin quests between 2 steps
+            Coin quest == 5      
 
     POINTS SYSTEM
 
@@ -30,9 +36,8 @@ COIN SYSTEM
             Tram            2 coins
             Metro           3 coins
             Local railway   3 coins
-
-
+        
         After every STEP:
-
-            Points == 5
+        
+            Points =+ 5 - Clues used
             Points == Coin gain
