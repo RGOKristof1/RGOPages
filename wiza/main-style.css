@@ -7,5 +7,64 @@
 }
 body{
   background-color: var(--mBackground);
-  margin: 0 clamp(100px,10vw,10px);
+  margin: 0;
+  font-family: bank;
+  color: var(--mText);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: clamp(10px, 10vw, 100px);
+  box-sizing: border-box;
+}
+
+.question{
+  background-color: var(--mSecondary);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input[type="text"]{
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+button, .btn{
+  font: inherit;
+  color: var(--mText);
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-primary{
+  background: var(--mPrimary);
+  color: var(--mBackground);
+  border-color: color-mix(in srgb, var(--mPrimary) 80%, transparent);
+}
+
+.btn{
+  width: 100%;
+  max-width: 400px;
+  margin-top: 12px;
+  display: block;
+}
+
+p{
+  margin:0 0 8px;
+  text-align: center;
+  width: 100%;
 }
