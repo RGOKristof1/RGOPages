@@ -2,42 +2,50 @@ TEST GAME
 
 MAP: BUDAPEST ONLY
 
-START: 10:00
-END: 22:00
+START:  10:00
+END:    22:00
 
-
-6 STEP
-    1st STEP:
-        read story (pic with tag)
-
-    2-5th STEP:
-        NFC tag
-
-    6th STEP:
-        publish story to win
+5 STEPS
+    STEP 1: add picture to story with tag
+    STEP 2: scan NFC tag from STEP 1
+    STEP 3: scan NFC tag from STEP 2
+    STEP 4: scan NFC tag from STEP 3
+    STEP 5: scan NFC tag from STEP 4; publish story
+    TO WIN: have the most point at the end of the HUNT.
 
 
 COIN SYSTEM
 
-    Start: 5 coins
+    START
+        Coins: 5
 
-    COIN QUEST
+    COIN QUESTS (optional, unlocked between STEPS)
+        - After every completed STEP an optional extra "Coin Quest" becomes available for the next transition.
+        - Only one extra quest active at a time; expires when next STEP is completed.
+        - The Coin Quest must take place between the spatial locations of the two STEPs.
+        - Reward:
+            Base reward = 5 coins
 
-        After every STEP:
-    
-            Qnlock extra coin quests between 2 steps
-            Coin quest == 5 
+    REWARDS & POINTS (per STEP)
+        - Clues used reduces base points:
+            Points per STEP = 5 - clues_used
+        - Time bonus:
+            Bonus points awarded equal to the number of hours remaining when hunt is completed
 
-    POINTS SYSTEM
-
-        COIN USAGE
-
+    COIN USAGE (costs)
+        - Transport:
             Bus             1 coin
             Tram            2 coins
             Metro           3 coins
             Local railway   3 coins
-        
-        After every STEP:
-        
-            Points =+ 5 - Clues used
-            Points == Coin gain
+        - Hints:
+            Small hint      1 coin
+
+    SHOP & SPECIALS
+        - 
+
+    BALANCING & SAFEGUARDS
+        - Coins can go below 0.
+
+    NOTES
+        - 
