@@ -11,62 +11,98 @@
   <link rel="stylesheet" href="main-style.css">
 </head>
 
-<body class="p-4">
+<body>
 
-  <!-- 1. kérdés -->
-  <div id="q1" class="question mb-4">
-    <p>q</p>
-    <input id="a1" type="text" class="form-control mb-2">
-    <button class="btn btn-primary" onclick="check1()">OK</button>
-  </div>
+  <main class="center-wrap">
 
-  <!-- 2. kérdés -->
-  <div id="q2" class="question mb-4" style="display:none;">
-    <p>qq</p>
-    <input id="a2" type="text" class="form-control mb-2">
-    <button class="btn btn-primary" onclick="check2()">OK</button>
-  </div>
+    <!-- Question 1 (visible initially) -->
+    <div id="q1" class="question mb-4" data-answer="q" data-next="q2" data-success="Clue: xyz1.">
+      <p>Ez a kiinduló clue keressed meg a kövi NFC taget</p>
+      <br>
+      <p>1. Hint: Melyik kerület?</p>
+      <input id="a1" type="text" class="form-control mb-2" autocomplete="off">
+      <button class="btn btn-primary" type="button">OK</button>
+      <div class="feedback" aria-live="polite"></div>
+    </div>
 
-  <!-- 3. kérdés -->
-  <div id="q3" class="question mb-4" style="display:none;">
-    <p>qqq</p>
-    <input id="a3" type="text" class="form-control mb-2">
-    <button class="btn btn-primary" onclick="check3()">OK</button>
-  </div>
+    <!-- Question 2 (hidden until q1 answered) -->
+    <div id="q2" class="question mb-4 hidden" data-answer="q" data-next="q3" data-success="Clue: xyz2.">
+      <p>2. Hint: Melyik kerület?</p>
+      <input id="a2" type="text" class="form-control mb-2" autocomplete="off">
+      <button class="btn btn-primary" type="button">OK</button>
+      <div class="feedback" aria-live="polite"></div>
+    </div>
+
+    <!-- Question 3 (hidden until q2 answered) -->
+    <div id="q3" class="question mb-4 hidden" data-answer="q" data-success="Clue: xyz3.">
+      <p>3. Hint: Melyik kerület?</p>
+      <input id="a3" type="text" class="form-control mb-2" autocomplete="off">
+      <button class="btn btn-primary" type="button">OK</button>
+      <div class="feedback" aria-live="polite"></div>
+    </div>
+
+  </main>
 
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    function check1() {
-      if (document.getElementById("a1").value.trim().toLowerCase() === "q")
-      {
-        document.getElementById("q2").style.display = "flex";
-      }
-      else {
-        alert("Helytelen!");
-      }
-    }
+    // Mobile-friendly behavior: class-based show/hide, autofocus, Enter to submit, inline feedback
+    document.addEventListener('DOMContentLoaded', function () {
+      const questions = document.querySelectorAll('.question');
 
-    function check2() {
-      if (document.getElementById("a2").value.trim() === "qq")
-      {
-        document.getElementById("q3").style.display = "flex";
+      // Reveal the question with the given id. Previously shown questions remain visible.
+      // We scroll the new question into view and focus its input for faster mobile entry.
+      function showQuestion(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.classList.remove('hidden');
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const input = el.querySelector('input');
+        if (input) input.focus();
       }
-      else {
-        alert("Helytelen!");
-      }
-    }
 
-    function check3() {
-      if (document.getElementById("a3").value.trim().toLowerCase() === "qqq")
-      {
-        alert("CLUE");
+      function handleCheck(q) {
+        const input = q.querySelector('input');
+        const feedback = q.querySelector('.feedback');
+        const expected = (q.dataset.answer || '').trim().toLowerCase();
+        const val = (input.value || '').trim().toLowerCase();
+        if (val === expected && expected !== '') {
+          // show the per-question success message if provided, otherwise default to 'Siker!'
+          const successMsg = q.dataset.success || 'Siker!';
+          feedback.textContent = successMsg;
+          // mark this question answered and disable its controls so it stays visible but inactive
+          const btn = q.querySelector('button');
+          const inputEl = q.querySelector('input');
+          if (inputEl) inputEl.disabled = true;
+          if (btn) btn.disabled = true;
+          q.classList.add('answered');
+
+          const next = q.dataset.next;
+          if (next) {
+            showQuestion(next);
+          } else {
+            const successMsgFinal = q.dataset.success || 'Siker!';
+            feedback.textContent = successMsgFinal;
+          }
+        } else {
+          feedback.textContent = 'Helytelen!';
+        }
       }
-      else {
-        alert("Helytelen!");
-      }
-    }
+
+      questions.forEach(q => {
+        const btn = q.querySelector('button');
+        const input = q.querySelector('input');
+        if (btn) btn.addEventListener('click', () => handleCheck(q));
+        if (input) input.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') { e.preventDefault(); handleCheck(q); }
+        });
+      });
+
+      // start state: show first question
+      const first = document.querySelector('.question:not(.hidden)') || document.getElementById('q1');
+      if (first) first.querySelector('input')?.focus();
+    });
   </script>
 
 </body>

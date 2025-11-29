@@ -26,7 +26,7 @@ COIN SYSTEM
         After every STEP:
     
             Qnlock extra coin quests between 2 steps
-            Coin quest == 5      
+            Coin quest == 5 
 
     POINTS SYSTEM
 

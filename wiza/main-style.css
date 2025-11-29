@@ -10,12 +10,8 @@ body{
   margin: 0;
   font-family: bank;
   color: var(--mText);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
-  padding: clamp(10px, 10vw, 100px);
+  padding: clamp(10px, 10vw, 40px);
   box-sizing: border-box;
 }
 
@@ -29,6 +25,31 @@ body{
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+/*
+  Center wrapper that vertically centers the active question area. It stacks
+  questions vertically so newly revealed questions appear below previous ones.
+*/
+.center-wrap{
+  min-height: calc(100vh - 0px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+}
+
+/* utility class to hide elements (used by JS) */
+.hidden{display:none !important}
+
+/* small inline feedback area for each question (aria-live=polite for screen readers) */
+.feedback{
+  margin-top:8px;
+  color: var(--mPrimary);
+  min-height:1.2em;
+  text-align:center;
 }
 
 input[type="text"]{
