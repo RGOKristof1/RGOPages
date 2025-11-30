@@ -15,18 +15,18 @@
     <div class="container mt-5">
         <div class="row">
             <!-- Quiz 1 -->
-            <div class="col-sm-6 text-center">
+            <div class="col-sm-6 text-center" style="background-color: var(--mSecondary); border-radius: 10px; padding: 20px; margin-bottom: 20px;">
                 <h3 id="quiz1-title">RGO</h3>
                 <input id="quiz1-input" type="text" class="form-control mb-3" placeholder="Enter answer">
-                <div id="quiz1-buttons" class="btn-group-vertical w-100"></div>
+                <div id="quiz1-buttons" class="btn-group-vertical w-100" style="display: flex; flex-direction: column; align-items: center;"></div>
                 <div id="quiz1-feedback" class="mt-2 text-danger"></div>
             </div>
             
             <!-- Quiz 2 -->
-            <div class="col-sm-6 text-center">
+            <div class="col-sm-6 text-center" style="background-color: var(--mSecondary); border-radius: 10px; padding: 20px; margin-bottom: 20px;">
                 <h3 id="quiz2-title">Wiza</h3>
                 <input id="quiz2-input" type="text" class="form-control mb-3" placeholder="Enter answer">
-                <div id="quiz2-buttons" class="btn-group-vertical w-100"></div>
+                <div id="quiz2-buttons" class="btn-group-vertical w-100" style="display: flex; flex-direction: column; align-items: center;"></div>
                 <div id="quiz2-feedback" class="mt-2 text-danger"></div>
             </div>
         </div>
@@ -76,6 +76,7 @@
                 btn.className = 'btn btn-primary w-100 mb-2';
                 btn.textContent = data.text;
                 btn.style.display = 'none';
+                btn.style.maxWidth = '300px';
                 btn.onclick = () => window.open(data.link, '_blank');
                 buttonsContainer.appendChild(btn);
             });
