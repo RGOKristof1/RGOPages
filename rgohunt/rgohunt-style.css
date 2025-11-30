@@ -27,10 +27,6 @@ body{
   align-items: center;
 }
 
-/*
-  Center wrapper that vertically centers the active question area. It stacks
-  questions vertically so newly revealed questions appear below previous ones.
-*/
 .center-wrap{
   min-height: calc(100vh - 0px);
   display: flex;
@@ -41,10 +37,8 @@ body{
   width: 100%;
 }
 
-/* utility class to hide elements (used by JS) */
 .hidden{display:none !important}
 
-/* small inline feedback area for each question (aria-live=polite for screen readers) */
 .feedback{
   margin-top:8px;
   color: var(--mPrimary);
