@@ -15,24 +15,27 @@
   <main class="center-wrap">
 
     <!-- Question 1 (visible initially) -->
-    <div id="q1" class="question" data-next="q2" data-success="Clue: xyz1.">
+    <div class="question">
       <p>Ez a kiinduló clue keressed meg a kövi NFC taget</p>
-      <p>1. Hint: Melyik kerület?</p>
-      <button class="btn btn-primary" type="button">Mutasd</button>
+    </div>
+    
+    <div id="q1" class="question" data-next="q2" data-success="Clue: xyz1.">
+      <p>1. Hint</p>
+      <button class="btn btn-primary" type="button">-1 coin</button>
       <div class="feedback" aria-live="polite"></div>
     </div>
 
     <!-- Question 2 -->
     <div id="q2" class="question hidden" data-next="q3" data-success="Clue: xyz2.">
-      <p>2. Hint: Melyik kerület?</p>
-      <button class="btn btn-primary" type="button">Mutasd</button>
+      <p>2. Hint</p>
+      <button class="btn btn-primary" type="button">-1 coin</button>
       <div class="feedback" aria-live="polite"></div>
     </div>
 
     <!-- Question 3 -->
     <div id="q3" class="question hidden" data-success="Clue: xyz3.">
-      <p>3. Hint: Melyik kerület?</p>
-      <button class="btn btn-primary" type="button">Mutasd</button>
+      <p>3. Hint</p>
+      <button class="btn btn-primary" type="button">-1 coin</button>
       <div class="feedback" aria-live="polite"></div>
     </div>
 
