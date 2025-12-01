@@ -14,11 +14,12 @@
 
   <main class="center-wrap">
 
-    <!-- Question 1 (visible initially) -->
+    <!-- Intro block (no button!) -->
     <div class="question">
       <p>Ez a kiinduló clue keressed meg a kövi NFC taget</p>
     </div>
-    
+
+    <!-- Question 1 -->
     <div id="q1" class="question" data-next="q2" data-success="Clue: xyz1.">
       <p>1. Hint</p>
       <button class="btn btn-primary" type="button">-1 coin</button>
@@ -43,9 +44,8 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const questions = document.querySelectorAll('.question');
 
-      // Show question by ID
+      // Show a question
       function showQuestion(id) {
         const el = document.getElementById(id);
         if (!el) return;
@@ -53,27 +53,30 @@
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
 
+      // Reveal text after clicking the button
       function handleReveal(q) {
         const feedback = q.querySelector('.feedback');
         const successMsg = q.dataset.success || '';
         feedback.textContent = successMsg;
 
-        // disable button so it cannot be pressed again
         const btn = q.querySelector('button');
         btn.disabled = true;
-        q.classList.add('answered');
 
         const next = q.dataset.next;
         if (next) showQuestion(next);
       }
 
-      questions.forEach(q => {
+      // Attach click listeners only to questions that actually HAVE a button
+      document.querySelectorAll('.question').forEach(q => {
         const btn = q.querySelector('button');
+        if (!btn) return; // skip intro block
+
         btn.addEventListener('click', () => handleReveal(q));
       });
 
-      // Start with q1
+      // Start with q1 visible
       showQuestion('q1');
+
     });
   </script>
 
