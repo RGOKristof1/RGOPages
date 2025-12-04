@@ -14,9 +14,7 @@
 </div>
 
 <div id="content" style="display:none;">
-    <h2>Titkos tartalom</h2>
-    <button onclick="loadSecret()">Betöltés</button>
-    <pre id="output"></pre>
+    <div id="output"></div>
 </div>
 
 
@@ -42,6 +40,7 @@ async function login() {
 
     document.getElementById("loginDiv").style.display = "none";
     document.getElementById("content").style.display = "block";
+    loadSecret();
 }
 
 async function loadSecret() {
@@ -55,6 +54,7 @@ async function loadSecret() {
 
     const data = await res.json();
     document.getElementById("output").innerText = JSON.stringify(data, null, 2);
+
 }
 </script>
 
