@@ -2,10 +2,8 @@
   font-family: Bank;
   src: url("/global-source/fonts/bank-gothic.otf");
 }
-html{
-  font-family: bank;
-}
 *{
+  font-family: bank;
   margin: 0;
   padding: 0;
 }

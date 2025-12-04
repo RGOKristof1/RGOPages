@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elso Clue Page</title>
+</head>
+
+<body>
+
+<div id="loginDiv">
+    <input id="pass" type="password" placeholder="Jelszó">
+    <button onclick="login()">Bejelentkezés</button>
+</div>
+
+<div id="content" style="display:none;">
+    <h2>Titkos tartalom</h2>
+    <button onclick="loadSecret()">Betöltés</button>
+    <pre id="output"></pre>
+</div>
+
+
+<script>
+const BACKEND = "https://api.rgopages.hu";
+
+async function login() {
+    const password = document.getElementById("pass").value;
+
+    const res = await fetch(BACKEND + "/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({password})
+    });
+
+    if (!res.ok) {
+        alert("Rossz jelszó!");
+        return;
+    }
+
+    const data = await res.json();
+    localStorage.setItem("token", data.token);
+
+    document.getElementById("loginDiv").style.display = "none";
+    document.getElementById("content").style.display = "block";
+}
+
+async function loadSecret() {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(BACKEND + "/secret-data", {
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    });
+
+    const data = await res.json();
+    document.getElementById("output").innerText = JSON.stringify(data, null, 2);
+}
+</script>
+
+</body>
+
+</html>
