@@ -66,7 +66,7 @@ button{
 
 
 
-@media (max-width: 425px) {
+@media (max-width: 800px) {
     header{
         font-size: 20px;
         text-align: center;
