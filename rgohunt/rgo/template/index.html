@@ -3,26 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elso Clue Page</title>
+    <link rel="stylesheet" href="/global-source/global-style.css">
+    <link rel="stylesheet" href="/rgohunt/rgo/template/template-source/template-style.css">
+    <title>Wiza?</title>
+    
 </head>
 
 <body>
+    
+    
+    <div id="loginDiv">
+        <header>
+            <h1>RGOHunt</h1>
+            <h2>WIZA?</h2>
+        </header>
+        <div class="main">
+                <input id="pass" type="password" placeholder="password">
+        </div>
+    </div>
+    
 
-<div id="loginDiv">
-    <input id="pass" type="password" placeholder="Jelszó">
-    <button onclick="login()">Bejelentkezés</button>
-</div>
-
-<div id="content" style="display:none;">
-    <div id="output"></div>
-</div>
+    <div id="content" style="display:none;">
+        <div id="output"></div>
+    </div>
 
 
 <script>
 const BACKEND = "https://api.rgopages.hu";
 
+var pass = document.getElementById("pass");
+pass.addEventListener("keydown", function (e) {
+    if (e.code === "Enter") {  //checks whether the pressed key is "Enter"
+        login()
+    }
+});
+
 async function login() {
-    const password = document.getElementById("pass").value;
+        const password = localStorage.getItem("password") || document.getElementById("pass").value;
+    
+    
 
     const res = await fetch(BACKEND + "/login", {
         method: "POST",
@@ -34,7 +53,7 @@ async function login() {
         alert("Rossz jelszó!");
         return;
     }
-
+    localStorage.setItem("password",password);
     const data = await res.json();
     localStorage.setItem("token", data.token);
 

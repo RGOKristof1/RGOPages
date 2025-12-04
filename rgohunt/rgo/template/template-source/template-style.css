@@ -1,0 +1,110 @@
+:root{
+  --mPrimary: hsl(300, 63%, 80%);
+  --mAccent: hsl(from var(--mPrimary) h s calc(l - 10));
+  --mText: hsl(from var(--mPrimary) h s calc(l + 10));
+  --mBackground: hsl(240, 14%, 10%);
+  --mSecondary: hsl(from var(--mBackground) h s calc(l + 30));
+  --mwhite: rgb(93, 93, 93);
+}
+
+body{
+    background-color: var(--mBackground);
+    display: grid;
+    justify-content: center;
+}
+.main{
+    font-size: 20px;
+        text-align: center;
+        color: var(--mPrimary);
+        
+
+
+        background-color: var(--mSecondary);
+        margin-top: 20px;
+        border-radius: 20px;
+
+        box-shadow:
+            0px 10px 30px black,
+            inset 0px 1px 1px white,
+            inset 0px -1px 1px black
+            ;
+}
+
+input{
+    height: 50px;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    color: var(--mAccent);
+    text-align:center;
+}
+input:focus{
+    outline: none;
+}
+::placeholder{
+    color: rgb(46, 46, 46);
+    text-align: center;
+    
+}
+button{
+    height: 30px;
+    background-color: hsl(from var(--mSecondary) h s calc(l + 10));
+    color: rgb(46, 46, 46);
+}
+
+
+
+
+
+
+
+.body{
+    background-color: var(--mBackground);
+    display: grid;
+    justify-content: center;
+}
+
+
+
+@media (max-width: 425px) {
+    header{
+        font-size: 20px;
+        text-align: center;
+        color: var(--mPrimary);
+        margin: 0 13vw;
+        
+
+
+        background-color: var(--mSecondary);
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 20px;
+
+        box-shadow:
+            0px 10px 30px black,
+            inset 0px 1px 1px white,
+            inset 0px -1px 1px black
+            ;
+    }
+    h1,h2{
+        text-shadow: 0px 2px 3px black;
+    }
+    main{
+        font-size: 20px;
+        text-align: center;
+        color: var(--mPrimary);
+        
+
+
+        background-color: var(--mSecondary);
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 20px;
+
+        box-shadow:
+            0px 10px 30px black,
+            inset 0px 1px 1px white,
+            inset 0px -1px 1px black
+            ;
+    }
+}
