@@ -52,9 +52,9 @@ async function loadSecret() {
         }
     });
 
-    const data = await res.json();
-    document.getElementById("output").innerText = JSON.stringify(data, null, 2);
-
+    const html = await res.text();  // <<-- fontos
+  
+    document.getElementById("content").innerHTML = html;
 }
 </script>
 
