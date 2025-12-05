@@ -66,8 +66,7 @@ button{
 
 
 
-@media (max-width: 800px) {
-    header{
+header{
         font-size: 20px;
         text-align: center;
         color: var(--mPrimary);
@@ -106,5 +105,28 @@ button{
             inset 0px 1px 1px white,
             inset 0px -1px 1px black
             ;
+    }
+@media (max-width: 800px) {
+    header{
+        font-size: 25px;
+    }
+    main{
+        font-size: 25px;
+    }
+}
+@media (min-width: 800px) and (max-width: 1440px ){
+    header{
+        font-size: 30px;
+    }
+    main{
+        font-size: 30px;
+    }
+}
+@media (min-width: 1440px ){
+    header{
+        font-size: 35px;
+    }
+    main{
+        font-size: 35px;
     }
 }
