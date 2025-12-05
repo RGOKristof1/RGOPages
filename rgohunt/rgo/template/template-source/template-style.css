@@ -115,6 +115,7 @@ header{
     }
     input{
         font-size: 25px;
+        /*whatc*/
     }
 }
 @media (min-width: 800px) and (max-width: 1440px ){
